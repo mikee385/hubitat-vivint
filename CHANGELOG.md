@@ -1,3 +1,7 @@
+## 0.0.13 (2021-03-12)
+### Changes
+- Add package.lock
+
 ## 0.0.12 (2021-03-12)
 ### Changes
 - Clean up PubNub logging
