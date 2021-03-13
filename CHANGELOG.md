@@ -1,3 +1,7 @@
+## 0.0.5 (2021-03-12)
+### Changes
+- Add endpoints for snapshot and devices;
+
 ## 0.0.4 (2021-03-12)
 ### Changes
 - Replace Homebridge plugin details with Express web server;

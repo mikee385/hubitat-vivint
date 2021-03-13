@@ -63,4 +63,20 @@ app.get('/', (req, res) => {
     res.send("Connected!")
 })
 
+app.get('/snapshot', (req, res) => {
+    VivintApiPromise.then((vivintApi) => {
+        res.send(JSON.stringify(vivintApi.deviceSnapshot()))
+    }).catch((error) => {
+        logger.error("Error while loading snapshot:", error)
+    })
+})
+
+app.get('/devices', (req, res) => {
+    VivintApiPromise.then((vivintApi) => {
+        res.send(JSON.stringify(vivintApi.deviceSnapshot().Devices))
+    }).catch((error) => {
+        logger.error("Error while loading devices:", error)
+    })
+})
+
 module.exports = app

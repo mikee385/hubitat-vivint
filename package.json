@@ -1,7 +1,7 @@
 
 {
   "name": "hubitat-vivint",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Provides a REST web server for interacting with the Vivint API, specifically for use with Hubitat",
   "license": "Apache-2.0",
   "author": "Michael Pierce <mikee385@gmail.com>",
