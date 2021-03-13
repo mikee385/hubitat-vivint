@@ -1,3 +1,7 @@
+## 0.0.9 (2021-03-12)
+### Changes
+- Add config/default.json
+
 ## 0.0.8 (2021-03-12)
 ### Changes
 - Update .gitignore

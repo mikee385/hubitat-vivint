@@ -1,0 +1,6 @@
+{
+    "platform": "Vivint",
+    "username": "your-vivint-user@email.com",
+    "password": "vivint-user-password",
+    "apiLoginRefreshSecs": 1200
+}
