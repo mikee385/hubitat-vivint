@@ -1,3 +1,7 @@
+## 0.0.3 (2021-03-12)
+### Changes
+- Update package.json to reflect new project;
+
 ## 0.0.2 (2021-03-12)
 ### Changes
 - Remove unused files;

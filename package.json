@@ -1,56 +1,44 @@
+
 {
-  "name": "@balansse/homebridge-vivint",
-  "version": "1.5.3",
-  "description": "Control Vivint with HomeBridge",
-  "license": "ISC",
-  "author": "Alexandr Balan <balansse@gmail.com>",
+  "name": "hubitat-vivint",
+  "version": "0.0.3",
+  "description": "Provides a REST web server for interacting with the Vivint API, specifically for use with Hubitat",
+  "license": "Apache-2.0",
+  "author": "Michael Pierce <mikee385@gmail.com>",
   "contributors": [
-    "Tim Harper <timcharper@gmail.com>"
+    "Tim Harper <timcharper@gmail.com>",
+    "Alexandr Balan <balansse@gmail.com>"
   ],
   "keywords": [
-    "homebridge-plugin"
+    "hubitat",
+    "vivint"
   ],
+  "homepage": "https://github.com/mikee385/hubitat-vivint#readme",
   "repository": {
     "type": "git",
-    "url": "git://github.com/balansse/homebridge-vivint.git"
+    "url": "git+https://github.com/mikee385/hubitat-vivint.git"
   },
   "bugs": {
-    "url": "http://github.com/balansse/homebridge-vivint/issues"
+    "url": "https://github.com/mikee385/hubitat-vivint/issues"
   },
   "engines": {
-    "node": ">=10",
-    "homebridge": ">=1.0.0"
+    "node": ">=10"
   },
   "dependencies": {
-    "debounce-promise": "^3.1.2",
-    "ffmpeg-for-homebridge": "^0.0.9",
-    "get-port": "^5.1.1",
+    "config": "^3.3.6",
+    "express": "^4.17.1",
     "isobject": "^3.0.1",
     "jpeg-extract": "^3.0.1",
+    "morgan": "^1.10.0",
     "pubnub": "^4.29.11",
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.9"
+    "request-promise-native": "^1.0.9",
+    "winston": "^3.3.3"
   },
-  "devDependencies": {
-    "mocha": "^5.2.0"
-  },
-  "homepage": "https://github.com/balansse/homebridge-vivint#readme",
-  "funding": [
-    {
-      "type": "kofi",
-      "url": "https://ko-fi.com/balansse"
-    },
-    {
-      "type": "paypal",
-      "url": "https://paypal.me/balansse"
-    }
-  ],
   "main": "index.js",
   "directories": {
-    "lib": "lib",
-    "test": "test"
+    "lib": "lib"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
