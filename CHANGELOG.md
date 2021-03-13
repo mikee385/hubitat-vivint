@@ -1,3 +1,7 @@
+## 0.0.10 (2021-03-12)
+### Changes
+- Change package to private
+
 ## 0.0.9 (2021-03-12)
 ### Changes
 - Add config/default.json
