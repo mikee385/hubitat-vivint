@@ -1,3 +1,7 @@
+## 0.0.6 (2021-03-12)
+### Changes
+- Add Express global error handlers;
+
 ## 0.0.5 (2021-03-12)
 ### Changes
 - Add endpoints for snapshot and devices;

@@ -79,4 +79,28 @@ app.get('/devices', (req, res) => {
     })
 })
 
+app.use(function (req, res, next) {
+    var err = new Error('Endpoint not found.');
+    err.status = 404;
+    next(err);
+});
+
+if (app.get('env') === 'development') {
+    app.use(function (err, req, res) {
+        res.status(err.status || 500);
+        res.send({
+            message: err.message,
+            error: err
+        });
+    });
+} else {
+    app.use(function (err, req, res) {
+        res.status(err.status || 500);
+        res.send({
+            message: err.message,
+            error: {}
+        });
+    });
+}
+
 module.exports = app
