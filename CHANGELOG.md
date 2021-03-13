@@ -1,3 +1,7 @@
+## 0.0.12 (2021-03-12)
+### Changes
+- Clean up PubNub logging
+
 ## 0.0.11 (2021-03-12)
 ### Changes
 - Remove all references to logger
