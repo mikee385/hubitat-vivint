@@ -6,7 +6,7 @@ var app = express()
 var port = 38283
 
 var morgan = require('morgan')
-app.use(morgan('dev', {'stream': logger.stream}))
+app.use(morgan('dev', {'stream': log.stream}))
 
 var config_apiLoginRefreshSecs = config.apiLoginRefreshSecs || 1200 // once per 20 minutes default
       

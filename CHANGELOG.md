@@ -1,3 +1,7 @@
+## 0.0.11 (2021-03-12)
+### Changes
+- Remove all references to logger
+
 ## 0.0.10 (2021-03-12)
 ### Changes
 - Change package to private
