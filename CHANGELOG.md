@@ -1,23 +1,27 @@
+## 0.0.7 (2021-03-12)
+### Changes
+- Add Winston and Morgan libraries for logging
+
 ## 0.0.6 (2021-03-12)
 ### Changes
-- Add Express global error handlers;
+- Add Express global error handlers
 
 ## 0.0.5 (2021-03-12)
 ### Changes
-- Add endpoints for snapshot and devices;
+- Add endpoints for snapshot and devices
 
 ## 0.0.4 (2021-03-12)
 ### Changes
-- Replace Homebridge plugin details with Express web server;
+- Replace Homebridge plugin details with Express web server
 
 ## 0.0.3 (2021-03-12)
 ### Changes
-- Update package.json to reflect new project;
+- Update package.json to reflect new project
 
 ## 0.0.2 (2021-03-12)
 ### Changes
-- Remove unused files;
+- Remove unused files
 
 ## 0.0.1 (2021-03-12)
 ### Changes
-- Update README, LICENSE, and CHANGELOG to reflect the new goals of the forked project;
+- Update README, LICENSE, and CHANGELOG to reflect the new goals of the forked project

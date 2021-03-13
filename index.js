@@ -1,9 +1,12 @@
 var config = require('config')
-var log = console
+var log = require("./util/logger.js")
 
 var express = require('express')
 var app = express()
 var port = 38283
+
+var morgan = require('morgan')
+app.use(morgan('dev', {'stream': logger.stream}))
 
 var config_apiLoginRefreshSecs = config.apiLoginRefreshSecs || 1200 // once per 20 minutes default
       
@@ -67,7 +70,7 @@ app.get('/snapshot', (req, res) => {
     VivintApiPromise.then((vivintApi) => {
         res.send(JSON.stringify(vivintApi.deviceSnapshot()))
     }).catch((error) => {
-        logger.error("Error while loading snapshot:", error)
+        log.error("Error while loading snapshot:", error)
     })
 })
 
@@ -75,7 +78,7 @@ app.get('/devices', (req, res) => {
     VivintApiPromise.then((vivintApi) => {
         res.send(JSON.stringify(vivintApi.deviceSnapshot().Devices))
     }).catch((error) => {
-        logger.error("Error while loading devices:", error)
+        log.error("Error while loading devices:", error)
     })
 })
 
