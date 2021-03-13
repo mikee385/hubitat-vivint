@@ -1,40 +1,26 @@
 <SPAN ALIGN="CENTER">
 
-[![homebridge-vivint: Native HomeKit support for Vivint](https://raw.githubusercontent.com/balansse/homebridge-vivint/master/homebridge-vivint.svg)](https://github.com/balansse/homebridge-vivint)
+# Hubitat Vivint
 
-# Homebridge Vivint
-
-[![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins) [![npm](https://badgen.net/npm/v/@balansse/homebridge-vivint) ![npm](https://badgen.net/npm/dt/@balansse/homebridge-vivint)](https://www.npmjs.com/package/@balansse/homebridge-vivint) [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6NDY338ETGK4Q&currency_code=USD&source=url)
-
-## HomeKit support for Vivint system using [Homebridge](https://homebridge.io).
+## Hubitat support for Vivint system.
 </SPAN>
 
 ## Overview
 
-This is a fork of [homebridge-vivint](https://github.com/timcharper/homebridge-vivint) plugin for [homebridge](https://github.com/nfarina/homebridge).
-It allows to use your Vivint SmartHome products in Apple Homekit. The main changes in this fork include:
-  * More devices are supported
-  * Increased stability of notifications
-  * Support for camera streaming
-  * Ignore list for specific device types (useful in case of external integrations like Nest or MyQ that may be managed directly by another plugin) 
-  * Dynamic accessory cache management - any accessories that are no longer managed by the plugin or are disconnected from Vivint system would be removed from the cache automatically
-  * Homebridge Config UI X Web UI settings support
+This is a fork of [homebridge-vivint](https://github.com/balansse/homebridge-vivint) plugin for [homebridge](https://github.com/nfarina/homebridge), adapted to integrate with Hubitat instead of Homebridge.
+It allows to use your Vivint SmartHome products in Hubitat.
 
 Homebridge-Vivint was initially written by a former Vivint employee, Tim Harper. This project is not officially endorsed, sponsored, or affiliated with Vivint SmartHome in any way.
 
 ## Usage
 
-This plugin supports installation and changing settings (for `config.js`) via the popular [Config UI X plugin](https://github.com/oznu/homebridge-config-ui-x) (recommended for easiest usage).
+There are two pieces that must be deployed separately. 
 
-Ensure you are running Node v10.17.0 or higher (this version is required by Homebridge v1.0.0). You can check by using `node -v`.
+The first is the web server running on Node.js. This must be deployed on a separate computer on the same network as your Hubitat hub. It does not run on Hubitat itself.
 
-Either install and configure using Config UI X or you can manually install the plugin by running:
+Ensure you are running Node v10.17.0 or higher (this version is required by the original project). You can check by using `node -v`.
 
-```
-npm install -g @balansse/homebridge-vivint
-```
-
-Then, add the following configuration to the `platforms` array in your Homebridge `config.json`.
+Then, edit the `config/default.json` file with the following configuration:
 
 
 ```
@@ -42,12 +28,29 @@ Then, add the following configuration to the `platforms` array in your Homebridg
     {
       "platform": "Vivint",
       "username": "your-vivint-user@email.com",
-      "password": "vivint-user-password"
+      "password": "vivint-user-password",
+      "apiLoginRefreshSecs": 1200
     }
 }
 ```
 
-That's it! The plugin will automatically load all supported Vivint devices into Homebridge.
+Then, launch the web server by running the following from the command line:
+
+```
+node index.js
+```
+
+You can test the connection by accessing the following URL:
+
+```
+http://localhost:38283/devices
+```
+
+This should return a JSON array of the devices found within your Vivint account.
+
+Once the web server is running, you must deploy the Hubitat application and drivers code to your Hubitat hub. The easiest way to do this is to use Hubitat Package Manager (HPM).
+
+*To-Do: Add more instructions for installing to Hubitat*
 
 ## Supported Items
 
@@ -68,11 +71,9 @@ Currently, the following items are supported:
 * Heat / Freeze sensors
 * Z-Wave switches (binary and dimmer) that are paired with the Vivint panel. Be sure they are labeled "light" or "fan" if they control those respective devices.
 
-As I do not have access to all varieties of hardware that is supported by Vivint, some incompatibilities might happen. If you notice any weird behavior or your Vivint device is not supported, please submit an issue with your homebridge.log file attached.
+As I do not have access to all varieties of hardware that is supported by Vivint, some incompatibilities might happen. If you notice any weird behavior or your Vivint device is not supported, please submit an issue.
 
 ## Configuration
-
-Configuration of the plugin is simple. The Vivint plugin is a dynamic platform which caches the accessories registered.
 
 Configuration sample:
 
@@ -80,17 +81,13 @@ Configuration sample:
       "platform": "Vivint",
       "username": "your-vivint-user@email.com",
       "password": "vivint-user-password",
-      "ignoreDeviceTypes": ["thermostat_device", "garage_door_device"]
+      "apiLoginRefreshSecs": 1200
     }
 
-A general recommendation: consider creating and using a new Vivint account named "Apple Home". This way, your Vivint logs will show "the front door was unlocked by Apple Home", etc.
+A general recommendation: consider creating and using a new Vivint account named "Hubitat". This way, your Vivint logs will show "the front door was unlocked by Hubitat", etc.
 
 Configuration options overview:
 
 * **username**
 * **password**
-* **apiLoginRefreshSecs** - How often should Vivint Homebridge renew the session token? The token that Vivint provides when authenticating will expire. Also, when this renewal occurs, the plugin requests another snapshot. The event stream can sometimes fail to report device state appropriately and events can come out of order with the snapshot, or updates can be missed entirely. The occasional snapshot retrieval will auto-correct any such errors. Avoid setting this any more frequent that 10 minutes.
-* **motionDetectedOccupancySensorMins** - Homebridge-Vivint will create occupancy sensors for motion sensors that will stay active for X minutes after a motion event is detected. This value configures for how long that occupancy sensor will stay active if no further motion events are detected. Note: Vivint's reporting of motion events over the event stream can be a little inconsistent, at times. As a recommendation, don't plan on creating Homekit automations that respond to Vivint motion events.
-* **ignoreDeviceTypes** - The array containing the device types that should be ignored. Allowed types: "thermostat_device", "door_lock_device", "garage_door_device", "camera_device", "wireless_sensor"
-* **disableCameras** - If checked, camera video feeds would not appear in Homebridge.
-* **useExternalVideoStreams** - Stream camera feeds from Vivint servers instead of streaming directly from the Panel.
+* **apiLoginRefreshSecs** - How often should the web server renew the session token? The token that Vivint provides when authenticating will expire. Also, when this renewal occurs, the web server requests another snapshot. The event stream can sometimes fail to report device state appropriately and events can come out of order with the snapshot, or updates can be missed entirely. The occasional snapshot retrieval will auto-correct any such errors. Avoid setting this any more frequent that 10 minutes.
