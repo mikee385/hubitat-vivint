@@ -1,3 +1,7 @@
+## 0.0.8 (2021-03-12)
+### Changes
+- Update .gitignore
+
 ## 0.0.7 (2021-03-12)
 ### Changes
 - Add Winston and Morgan libraries for logging
