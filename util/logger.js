@@ -3,7 +3,7 @@ var winston = require('winston')
 var logger = winston.createLogger({
     transports: [
         new winston.transports.Console({
-            level: 'debug',
+            level: 'info',
             format: winston.format.combine(
                 winston.format.colorize(),
                 winston.format.metadata(),
@@ -12,8 +12,17 @@ var logger = winston.createLogger({
             ),
         }),
         new winston.transports.File({
-            filename: './logs/all.log',
+            filename: './logs/debug.log',
             level: 'debug',
+            format: winston.format.combine(
+                winston.format.metadata(),
+                winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss:ms'}),
+                winston.format.printf((info) => `${info.timestamp} ${info.level}: ${info.message.trim()} ${Object.keys(info.metadata).length ? JSON.stringify(info.metadata, undefined, 4) : ''}`)
+            ),
+        }),
+        new winston.transports.File({
+            filename: './logs/error.log',
+            level: 'warn',
             format: winston.format.combine(
                 winston.format.metadata(),
                 winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss:ms'}),
