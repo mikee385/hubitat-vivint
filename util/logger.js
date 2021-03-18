@@ -1,10 +1,11 @@
 var winston = require('winston')
+const DailyRotateFile = require('winston-daily-rotate-file')
 
 const commonFormat = winston.format.combine(
     winston.format.metadata(),
     winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
     winston.format.printf((info) => {
-        let text = ""
+        let text = ''
     
         if (info.timestamp) {
             text += `${info.timestamp}\t`
@@ -43,14 +44,22 @@ var logger = winston.createLogger({
                 commonFormat
             )
         }),
-        new winston.transports.File({
-            filename: './logs/debug.log',
-            level: 'debug',
+        new DailyRotateFile({
+            level: 'warn',
+            dirname: './logs',
+            filename: 'error.%DATE%.log',
+            datePattern: 'YYYY-MM-DD',
+            maxSize: '20m',
+            maxFiles: '14d',
             format: commonFormat
         }),
-        new winston.transports.File({
-            filename: './logs/error.log',
-            level: 'warn',
+        new DailyRotateFile({
+            level: 'debug',
+            dirname: './logs',
+            filename: 'debug.%DATE%.log',
+            datePattern: 'YYYY-MM-DD',
+            maxSize: '20m',
+            maxFiles: '3d',
             format: commonFormat
         })
     ]

@@ -32,7 +32,8 @@
     "morgan": "^1.10.0",
     "pubnub": "^4.29.11",
     "request-promise-native": "^1.0.9",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.1"
   },
   "main": "index.js",
   "directories": {
