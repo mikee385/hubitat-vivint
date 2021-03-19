@@ -113,7 +113,7 @@ app.get('/devices', (req, res) => {
 app.get('/devices/:id', (req, res, next) => {
     let deviceData = deviceSet.devicesById[req.params.id]
     if (deviceData) {
-        res.send(eviceData.dumpState())
+        res.send(deviceData.dumpState())
     } else {
         var err = new Error('Device not found')
         err.status = 404
@@ -125,7 +125,7 @@ app.use(function (req, res, next) {
     var err = new Error('Endpoint not found')
     err.status = 404
     next(err)
-});
+})
 
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
