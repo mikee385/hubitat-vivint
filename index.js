@@ -58,10 +58,7 @@ app.listen(port, () => {
                         deviceSet.handleMessage(parsedMessage)
                     }
                     catch (error) {
-                        log.error('Error occured while handling PubNub message: ', {
-                            message: error.message,
-                            stack: error.stack
-                        })
+                        log.error('Error occured while handling PubNub message: ', error)
                     }
                 }
             })
@@ -72,10 +69,7 @@ app.listen(port, () => {
                 vivintApi.renew()
                     .then((vivintApi) => vivintApi.renewPanelLogin())
                     .catch((error) => {
-                        log.error("Error refreshing login info: ", {
-                            message: error.message,
-                            stack: error.stack
-                        })
+                        log.error("Error refreshing login info: ", error)
                     })
             }, config_apiLoginRefreshSecs * 1000)
 
@@ -84,19 +78,13 @@ app.listen(port, () => {
                 vivintApi.renewSystemInfo()
                     .then((vivintApi) => deviceSet.handleSnapshot(vivintApi.deviceSnapshot(), vivintApi.deviceSnapshotTs()))
                     .catch((error) => {
-                        log.error("Error getting system info: ", {
-                            message: error.message,
-                            stack: error.stack
-                        })
+                        log.error("Error getting system info: ", error)
                     })
             }, (config_apiLoginRefreshSecs / 20) * 1000)
 
             log.info(`Listening on port ${port}!`)
         }).catch((error) => {
-            log.error("Error while bootstrapping accessories: ", {
-                message: error.message,
-                stack: error.stack
-            })
+            log.error("Error while bootstrapping accessories: ", error)
         })
 })
 
@@ -104,14 +92,13 @@ app.get('/', (req, res) => {
     res.send("Connected!")
 })
 
-app.get('/snapshot', (req, res) => {
+app.get('/snapshot', (req, res, next) => {
     VivintApiPromise.then((vivintApi) => {
-        res.send(JSON.stringify(vivintApi.deviceSnapshot()))
+        res.send(vivintApi.deviceSnapshot())
     }).catch((error) => {
-        log.error("Error while loading snapshot: ", {
-            message: error.message,
-            stack: error.stack
-        })
+        var err = new Error('Error while loading snapshot', error)
+        err.status = 500
+        next(err)
     })
 })
 
@@ -120,31 +107,49 @@ app.get('/devices', (req, res) => {
     deviceSet.devices.forEach(device => {
         deviceData.push(device.dumpState())
     });
-    res.send(JSON.stringify(deviceData))
+    res.send(deviceData)
+})
+
+app.get('/devices/:id', (req, res, next) => {
+    let deviceData = deviceSet.devicesById[req.params.id]
+    if (deviceData) {
+        res.send(eviceData.dumpState())
+    } else {
+        var err = new Error('Device not found')
+        err.status = 404
+        next(err)
+    }
 })
 
 app.use(function (req, res, next) {
-    var err = new Error('Endpoint not found.');
-    err.status = 404;
-    next(err);
+    var err = new Error('Endpoint not found')
+    err.status = 404
+    next(err)
 });
 
 if (app.get('env') === 'development') {
-    app.use(function (err, req, res) {
-        res.status(err.status || 500);
+    app.use(function (err, req, res, next) {
+        let status = err.status || 500
+        log.error(`${status}:`, err)
+        
+        res.status(status)
         res.send({
+            status: status,
             message: err.message,
-            error: err
-        });
-    });
+            stack: err.stack
+        })
+    })
 } else {
-    app.use(function (err, req, res) {
-        res.status(err.status || 500);
+    app.use(function (err, req, res, next) {
+        let status = err.status || 500
+        log.error(`${status}:`, err)
+        
+        res.status(status)
         res.send({
-            message: err.message,
-            error: {}
-        });
-    });
+            status: status,
+            message: err.message
+        })
+    })
 }
 
 module.exports = app
