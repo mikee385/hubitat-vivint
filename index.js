@@ -121,6 +121,18 @@ app.get('/devices/:id', (req, res, next) => {
     }
 })
 
+app.get('/listeners', (req, res) => {
+    res.send([])
+})
+
+app.get('/listeners/:id', (req, res, next) => {
+    res.end()
+})
+
+app.post('/listeners', (req, res) => {
+    res.end()
+})
+
 app.use(function (req, res, next) {
     var err = new Error('Endpoint not found')
     err.status = 404
