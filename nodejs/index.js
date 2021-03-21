@@ -1,9 +1,15 @@
 var config = require('config')
+var fs = require('fs')
 var log = require("./util/logger.js")
 
 var express = require('express')
 var app = express()
 var port = 38283
+
+var bodyParser = require('body-parser')
+app.use(bodyParser.json())
+app.use(bodyParser.text())
+app.use(bodyParser.urlencoded({ extended: false }))
 
 var morgan = require('morgan')
 app.use(morgan('dev', {'stream': log.stream}))
@@ -13,7 +19,8 @@ const DeviceSetModule = require("./lib/device_set.js")
 
 var VivintApiPromise
 var PubNubPromise
-var deviceSet
+var ListenersPromise
+var DeviceSetPromise
 
 app.listen(port, () => {
     log.info('Initializing...')
@@ -25,10 +32,14 @@ app.listen(port, () => {
 
     PubNubPromise = VivintApiPromise
         .then((vivintApi) => vivintApi.connectPubNub())
+        
+    ListenersPromise = fs.promises.readFile("listeners.json")
+        .then((data) => JSON.parse(data))
+        .catch((error) => [])
 
-    Promise.all([VivintApiPromise, PubNubPromise])
-        .then(([vivintApi, pubNub]) => {
-            let DeviceSet = DeviceSetModule(config, log, vivintApi)
+    DeviceSetPromise = Promise.all([VivintApiPromise, PubNubPromise, ListenersPromise])
+        .then(([vivintApi, pubNub, listeners]) => {
+            let DeviceSet = DeviceSetModule(config, log, vivintApi, listeners)
             deviceSet = new DeviceSet()
 
             log.debug("Initial snapshot: ", vivintApi.deviceSnapshot())
@@ -83,13 +94,15 @@ app.listen(port, () => {
             }, (config_apiLoginRefreshSecs / 20) * 1000)
 
             log.info(`Listening on port ${port}!`)
+            
+            return deviceSet
         }).catch((error) => {
-            log.error("Error while bootstrapping accessories: ", error)
+            log.error("Error while initializing accessories: ", error)
         })
 })
 
 app.get('/', (req, res) => {
-    res.send("Connected!")
+    res.sendStatus(200)
 })
 
 app.get('/snapshot', (req, res, next) => {
@@ -102,35 +115,59 @@ app.get('/snapshot', (req, res, next) => {
     })
 })
 
-app.get('/devices', (req, res) => {
-    let deviceData = []
-    deviceSet.devices.forEach(device => {
-        deviceData.push(device.dumpState())
-    });
-    res.send(deviceData)
+app.get('/devices', (req, res, next) => {
+    DeviceSetPromise.then((deviceSet) => {
+        let deviceData = []
+        deviceSet.devices.forEach(device => {
+            deviceData.push(device.dumpState())
+        });
+        res.send(deviceData)
+    }).catch((error) => {
+        var err = new Error('Error while loading devices', error)
+        err.status = 500
+        next(err)
+    })
 })
 
 app.get('/devices/:id', (req, res, next) => {
-    let deviceData = deviceSet.devicesById[req.params.id]
-    if (deviceData) {
-        res.send(deviceData.dumpState())
-    } else {
-        var err = new Error('Device not found')
-        err.status = 404
+    DeviceSetPromise.then((deviceSet) => {
+        let deviceData = deviceSet.devicesById[req.params.id]
+        if (deviceData) {
+            res.send(deviceData.dumpState())
+        } else {
+            var err = new Error('Device not found')
+            err.status = 404
+            next(err)
+        }
+    }).catch((error) => {
+        var err = new Error('Error while loading device', error)
+        err.status = 500
         next(err)
-    }
+    })
 })
 
-app.get('/listeners', (req, res) => {
-    res.send([])
+app.get('/listeners', (req, res, next) => {
+    ListenersPromise.then((listeners) => {
+        res.send(listeners)
+    }).catch((error) => {
+        var err = new Error('Error while loading listeners', error)
+        err.status = 500
+        next(err)
+    })
 })
 
-app.get('/listeners/:id', (req, res, next) => {
-    res.end()
-})
-
-app.post('/listeners', (req, res) => {
-    res.end()
+app.post('/listeners', (req, res, next) => {
+    ListenersPromise.then((listeners) => {
+        if (!listeners.includes(req.body)) {
+            listeners.push(req.body)
+            fs.promises.writeFile("listeners.json", JSON.stringify(listeners))
+        }
+        res.sendStatus(201)
+    }).catch((error) => {
+        var err = error//new Error('Error while adding listener', error)
+        err.status = 500
+        next(err)
+    })
 })
 
 app.use(function (req, res, next) {

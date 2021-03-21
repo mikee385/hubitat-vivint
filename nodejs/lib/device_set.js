@@ -13,7 +13,7 @@ const Camera = require("./accessories/camera.js")
 // const DimmerSwitch = require("./accessories/dimmer_switch.js")
 const DoorbellCamera = require("./accessories/doorbell_camera.js")
 
-function DeviceSetModule(config, log, vivintApi) {
+function DeviceSetModule(config, log, vivintApi, listeners) {
 
   let config_IgnoredDeviceTypes = config.ignoreDeviceTypes || []
 
