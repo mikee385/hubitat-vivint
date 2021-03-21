@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.1" }
+String getVersionNum() { return "0.0.2" }
 String getVersionLabel() { return "Vivint Integration, version ${getVersionNum()} on ${getPlatform()}" }
 
 java.util.LinkedHashMap getTypeMap() { return [
@@ -112,11 +112,11 @@ def initializeServerConnection() {
 
 def registerListener() {
     def listenerUrl = "${url}/listeners"
-    def listenerBody = [ "url": state.updateUrl ]
+    def listenerBody = [ url: state.updateUrl ]
     logDebug("Posting to ${listenerUrl} with ${listenerBody}")
     try {
         httpPostJson(listenerUrl, listenerBody) { response ->
-            if(response.status == 200) {
+            if(response.status == 201) {
                 log.info "Registered listener with server"
             } else {
                 log.error "${response.status}: ${response.data}"
