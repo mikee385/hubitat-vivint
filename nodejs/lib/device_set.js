@@ -1,3 +1,5 @@
+const request = require("request-promise-native")
+
 const VivintDict = require("./vivint_dictionary.json")
 
 // const ContactSensor = require("./accessories/contact_sensor.js")
@@ -45,6 +47,7 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
         panelData.Status = deviceData.Status
       }
 
+      let listenerData = []
       for (let _deviceId in this.devicesById) {             
         let deviceId = parseInt(_deviceId)
         let data = deviceData.Devices.find((dvc) => dvc.Id == deviceId)
@@ -52,9 +55,20 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
         if (data) {
           let device = this.devicesById[_deviceId]
           device.handleData(data)
+          listenerData.push(device.dumpState())
+          
           log.info(`Device refreshed: [ID]:${device.id}, [Type]:${device.type}, [Name]:${device.name}`)
           log.debug("Device refreshed: ", device.dumpState())
         }
+      }
+      
+      if (listenerData) {
+        listeners.forEach((listener) => {
+          log.info(`Pushing update to ${listener}`)
+          log.debug(`Pushing update to ${listener}: ${JSON.stringify(listenerData)}`)
+              
+          this.sendUpdateToListener(listener, listenerData)
+        })
       }
     }
 
@@ -89,14 +103,26 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
         }
 
         if (message.Data.Devices) {
+          let listenerData = []
           message.Data.Devices.forEach((patch) => {
             let device = this.devicesById[patch.Id]
             if (device) {
               device.handleData(patch)
+              listenerData.push(device.dumpState())
+              
               log.info(`Device patched: [ID]:${device.id}, [Type]:${device.type}, [Name]:${device.name}`)
               log.debug("Device patched: ", device.dumpState())
             }
           })
+      
+          if (listenerData) {
+            listeners.forEach((listener) => {
+              log.info(`Pushing update to ${listener}`)
+              log.debug(`Pushing update to ${listener}: ${JSON.stringify(listenerData)}`)
+              
+              this.sendUpdateToListener(listener, listenerData)
+            })
+          }
         }
       }
     }
@@ -168,6 +194,20 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
       log.debug("Device created: ", device.dumpState())
 
       return device
+    }
+
+    async sendUpdateToListener(listener, data) {
+      try {
+        let requestResult = await request({
+          method: "POST",
+          uri: listener,
+          body: data,
+          json: true
+        })
+      }
+      catch (error) {
+        log.error('Error occured sending data to listener', error)
+      }
     }
   }
 

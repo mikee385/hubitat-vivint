@@ -8,7 +8,6 @@ var port = 38283
 
 var bodyParser = require('body-parser')
 app.use(bodyParser.json())
-app.use(bodyParser.text())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 var morgan = require('morgan')
@@ -158,13 +157,16 @@ app.get('/listeners', (req, res, next) => {
 
 app.post('/listeners', (req, res, next) => {
     ListenersPromise.then((listeners) => {
-        if (!listeners.includes(req.body)) {
-            listeners.push(req.body)
+        if (!listeners.includes(req.body.url)) {
+            log.info(`Registering new listener: ${req.body.url}`)
+            listeners.push(req.body.url)
             fs.promises.writeFile("listeners.json", JSON.stringify(listeners))
+        } else {
+            log.info(`Listener already registered: ${req.body.url}`)
         }
         res.sendStatus(201)
     }).catch((error) => {
-        var err = error//new Error('Error while adding listener', error)
+        var err = new Error('Error while adding listener', error)
         err.status = 500
         next(err)
     })
