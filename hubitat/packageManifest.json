@@ -1,0 +1,46 @@
+{
+    "packageName": "Vivint Integration",
+    "author": "Michael Pierce",
+    "minimumHEVersion": "1.0.0",
+    "licenseFile": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/LICENSE",
+    "releaseNotes": "Add support for Hubitat Package Manager",
+    "dateReleased": "2021-03-20",
+    "apps": [
+        {
+            "id": "a2271fcc-829d-4df1-b017-a74194045550",
+            "name": "Vivint Integration",
+            "version": "0.0.1",
+            "namespace": "mikee385",
+            "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-integration.groovy",
+            "required": true,
+            "oauth": true,
+            "primary": true
+        }
+    ],
+    "drivers": [
+        {
+            "id": "2c35f60a-ddd7-4a9c-847e-20bebed3b021",
+            "name": "Vivint Doorbell Camera",
+            "version": "0.0.1",
+            "namespace": "mikee385",
+            "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-doorbell-camera.groovy",
+            "required": true
+        },
+        {
+            "id": "1c920bad-4673-4d5a-9f4f-cfb0d59ecdfb",
+            "name": "Vivint Lock",
+            "version": "0.0.1",
+            "namespace": "mikee385",
+            "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-lock.groovy",
+            "required": true
+        },
+        {
+            "id": "fa75c648-8fa2-4757-9bc0-225eb8aafab4",
+            "name": "Vivint Panel",
+            "version": "0.0.1",
+            "namespace": "mikee385",
+            "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-panel.groovy",
+            "required": true
+        }
+    ]
+}
