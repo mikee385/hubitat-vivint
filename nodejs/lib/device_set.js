@@ -5,7 +5,7 @@ const VivintDict = require("./vivint_dictionary.json")
 const ContactSensor = require("./accessories/contact_sensor.js")
 const SmokeSensor = require("./accessories/smoke_sensor.js")
 const CarbonMonoxideSensor = require("./accessories/carbon_monoxide_sensor.js")
-// const MotionSensor = require("./accessories/motion_sensor.js")
+const MotionSensor = require("./accessories/motion_sensor.js")
  const Lock = require("./accessories/lock.js")
 // const Thermostat = require("./accessories/thermostat.js")
 // const GarageDoor = require("./accessories/garage_door.js")
@@ -212,7 +212,7 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
   }
 
   // let Devices = [ContactSensor, SmokeSensor, CarbonMonoxideSensor, MotionSensor, Lock, Thermostat, GarageDoor, Panel, Camera, LightSwitch, DimmerSwitch]
-  let Devices = [ContactSensor, SmokeSensor, CarbonMonoxideSensor, Lock, Panel, Camera, DoorbellCamera]
+  let Devices = [ContactSensor, SmokeSensor, CarbonMonoxideSensor, MotionSensor, Lock, Panel, Camera, DoorbellCamera]
   return DeviceSet
 }
 

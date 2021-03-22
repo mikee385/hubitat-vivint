@@ -9,7 +9,7 @@
         {
             "id": "a2271fcc-829d-4df1-b017-a74194045550",
             "name": "Vivint Integration",
-            "version": "0.0.7",
+            "version": "0.0.8",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-integration.groovy",
             "required": true,
@@ -56,6 +56,14 @@
             "version": "0.0.2",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-lock.groovy",
+            "required": true
+        },
+        {
+            "id": "366c6722-d5d1-46f4-8b60-4bef6e0a9114",
+            "name": "Vivint Motion Sensor",
+            "version": "0.0.1",
+            "namespace": "mikee385",
+            "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-motion-sensor.groovy",
             "required": true
         },
         {
