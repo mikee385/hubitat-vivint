@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.2" }
+String getVersionNum() { return "0.0.3" }
 String getVersionLabel() { return "Vivint Camera, version ${getVersionNum()} on ${getPlatform()}" }
 
 String getType() { return "Camera" }
@@ -27,7 +27,7 @@ metadata {
 		author: "Michael Pierce", 
 		importUrl: "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-camera.groovy"
 	) {
-	capability "MotionSensor"
+	    capability "MotionSensor"
         capability "Sensor"
     }
     preferences {
@@ -47,7 +47,6 @@ def updated() {
 }
 
 def initialize() {
-    sendEvent(name: "numberOfButtons", value: 1)
 }
 
 def logDebug(msg) {
