@@ -23,6 +23,14 @@ class Lock extends Device {
         }
       }
     }
+    
+    async handleCommand(data) {
+      if (!Object.is(data.lock, undefined)) {
+        await this.setTargetState(data.lock)
+      } else {
+        throw new Error(`Unknown command: ${data}`)
+      }
+    }
 
     async setTargetState(targetState) {
       let locked = (targetState == this.Characteristic.LockTargetState.SECURED)     

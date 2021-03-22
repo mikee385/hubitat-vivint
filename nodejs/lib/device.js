@@ -29,6 +29,10 @@ class Device {
           : this.Characteristic.StatusTampered.NOT_TAMPERED
       }
     }
+    
+    async handleCommand(data) {
+      throw "handleCommand is not implemented"
+    }
 
     dumpState() {
       let state = {}

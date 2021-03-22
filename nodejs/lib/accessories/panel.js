@@ -48,6 +48,14 @@ class Panel extends Device {
         this.status = this.VIVINT_TO_HUBITAT[data.Status]
       }
     }
+    
+    async handleCommand(data) {
+      if (!Object.is(data.status, undefined)) {
+        await this.setTargetState(data.status)
+      } else {
+        throw new Error(`Unknown command: ${data}`)
+      }
+    }
 
     async setTargetState(targetState) {
       let vivintState = this.HUBITAT_TO_VIVINT[targetState]   

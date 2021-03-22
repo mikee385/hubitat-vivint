@@ -145,6 +145,24 @@ app.get('/devices/:id', (req, res, next) => {
     })
 })
 
+app.post('/devices/:id', (req, res, next) => {
+    DeviceSetPromise.then((deviceSet) => {
+        let device = deviceSet.devicesById[req.params.id]
+        if (device) {
+            device.handleCommand(req.body)
+            res.sendStatus(200)
+        } else {
+            var err = new Error('Device not found')
+            err.status = 404
+            next(err)
+        }
+    }).catch((error) => {
+        var err = new Error('Error while sending command to device', error)
+        err.status = 500
+        next(err)
+    })
+})
+
 app.get('/listeners', (req, res, next) => {
     ListenersPromise.then((listeners) => {
         res.send(listeners)
