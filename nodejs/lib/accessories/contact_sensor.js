@@ -2,36 +2,26 @@ const Device = require('../device.js')
 const VivintDict = require("../vivint_dictionary.json")
 
 class ContactSensor extends Device {
-    constructor(accessory, data, config, log, homebridge, vivintApi) {
-        super(accessory, data, config, log, homebridge, vivintApi)
-      this.service = accessory.getService(this.Service.ContactSensor)
-      
-      this.batteryService.updateCharacteristic(this.Characteristic.ChargingState, this.Characteristic.ChargingState.NOT_CHARGEABLE)
-      
-      this.service
-        .getCharacteristic(this.Characteristic.ContactSensorState)
-        .on('get', callback => callback(null, this.getSensorState()))
-      
-      this.service
-        .getCharacteristic(this.Characteristic.StatusTampered)
-        .on('get', callback => callback(null, this.getTamperedState()))
-
-      this.notify()
+    constructor(id, name, type, data, config, log, vivintApi) {
+        super(id, name, type, data, config, log, vivintApi)
+		
+	      this.contact = this.Characteristic.ContactSensorState.CONTACT_DETECTED
     }
 
-    getSensorState() {
-      if (Boolean(this.data.Status))
-        return this.Characteristic.ContactSensorState.CONTACT_NOT_DETECTED
-      else
-        return this.Characteristic.ContactSensorState.CONTACT_DETECTED
+    handleData(data) {
+      super.handleData(data)
+      	
+      this.contact = Boolean(data.Status)
+		    ? this.Characteristic.ContactSensorState.CONTACT_NOT_DETECTED
+		    : this.Characteristic.ContactSensorState.CONTACT_DETECTED
     }
 
-    notify() {
-      super.notify()
-      if (this.service) {
-        this.service.updateCharacteristic(this.Characteristic.ContactSensorState, this.getSensorState())
-        this.service.updateCharacteristic(this.Characteristic.StatusTampered, this.getTamperedState())
-      }
+    dumpState() {
+      let state = super.dumpState()
+      
+      state.contact = this.contact
+      
+      return state
     }
 
     static appliesTo(data) {
@@ -53,22 +43,6 @@ class ContactSensor extends Device {
           (data.EquipmentCode == VivintDict.EquipmentCode.EXISTING_FLOOD_TEMP)
         ) 
       )
-    }
-
-    static inferCategory(data, Accessory) {
-      let name = data.Name
-
-      if (name.match(/\bwindow\b/i))
-        return Accessory.Categories.WINDOW
-      else if (name.match(/\bdoor(way)?\b/i))
-        return Accessory.Categories.DOOR
-      else
-        return Accessory.Categories.SENSOR
-    }
-
-    static addServices(accessory, Service) {
-      super.addServices(accessory, Service)
-      accessory.addService(new Service.ContactSensor(accessory.context.name))
     }
 }
 

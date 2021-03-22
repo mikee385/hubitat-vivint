@@ -4,6 +4,11 @@ class Characteristic {
         CO_LEVELS_NORMAL: "clear"
     }
     
+    static ContactSensorState = {
+        CONTACT_NOT_DETECTED: "open",
+        CONTACT_DETECTED: "closed"
+    }
+    
     static LockCurrentState = {
         UNSECURED: "unlocked",
         SECURED: "locked",
