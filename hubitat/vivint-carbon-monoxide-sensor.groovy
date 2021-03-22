@@ -14,11 +14,12 @@
  *
  */
  
-String getVersionNum() { return "0.0.1" }
+String getVersionNum() { return "0.0.2" }
 String getVersionLabel() { return "Vivint Carbon Monoxide Sensor, version ${getVersionNum()} on ${getPlatform()}" }
 
 String getType() { return "CarbonMonoxideSensor" }
-String[] getMotionValues() { return ["inactive", "active"] }
+String[] getTamperValues() { return ["clear", "detected"] }
+String[] getCarbonMonoxideValues() { return ["detected", "tested", "clear"] }
 
 metadata {
     definition (
@@ -27,10 +28,10 @@ metadata {
 		author: "Michael Pierce", 
 		importUrl: "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-carbon-monoxide-sensor.groovy"
 	) {
-	    capability "Battery"
-	    capability "CarbonMonoxideDetector"
+	capability "Battery"
+	capability "CarbonMonoxideDetector"
         capability "Sensor"
-	    capability "TamperAlert"
+	capability "TamperAlert"
     }
     preferences {
         section("Preferences") {
@@ -84,15 +85,23 @@ def update(deviceData) {
     } else {
         log.warn "battery not found in update."
     }
-
+    
     if (deviceData.tamper != null) {
-        sendEvent(name: "tamper", value: deviceData.tamper)
+        if (deviceData.tamper in tamperValues) {
+            sendEvent(name: "tamper", value: deviceData.tamper)
+        } else {
+            log.error "Unknown value for tamper: ${deviceData.tamper}"
+        }
     } else {
         log.warn "tamper not found in update."
     }
-
+    
     if (deviceData.carbonMonoxide != null) {
-        sendEvent(name: "carbonMonoxide", value: deviceData.carbonMonoxide)
+        if (deviceData.carbonMonoxide in carbonMonoxideValues) {
+            sendEvent(name: "carbonMonoxide", value: deviceData.carbonMonoxide)
+        } else {
+            log.error "Unknown value for carbonMonoxide: ${deviceData.carbonMonoxide}"
+        }
     } else {
         log.warn "carbonMonoxide not found in update."
     }
