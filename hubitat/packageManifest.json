@@ -4,12 +4,12 @@
     "minimumHEVersion": "1.0.0",
     "licenseFile": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/LICENSE",
     "releaseNotes": "Implement sending commands to server",
-    "dateReleased": "2021-03-21",
+    "dateReleased": "2021-03-22",
     "apps": [
         {
             "id": "a2271fcc-829d-4df1-b017-a74194045550",
             "name": "Vivint Integration",
-            "version": "0.0.3",
+            "version": "0.0.4",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-integration.groovy",
             "required": true,
@@ -18,6 +18,14 @@
         }
     ],
     "drivers": [
+        {
+            "id": "2c35f60a-ddd7-4a9c-847e-20bebed3b021",
+            "name": "Vivint Camera",
+            "version": "0.0.1",
+            "namespace": "mikee385",
+            "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-camera.groovy",
+            "required": true
+        },
         {
             "id": "2c35f60a-ddd7-4a9c-847e-20bebed3b021",
             "name": "Vivint Doorbell Camera",
