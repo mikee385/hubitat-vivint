@@ -101,7 +101,7 @@ app.listen(port, () => {
 })
 
 app.get('/', (req, res) => {
-    res.sendStatus(200)
+    res.end()
 })
 
 app.get('/snapshot', (req, res, next) => {
@@ -150,7 +150,7 @@ app.post('/devices/:id', (req, res, next) => {
         let device = deviceSet.devicesById[req.params.id]
         if (device) {
             device.handleCommand(req.body)
-            res.sendStatus(200)
+            res.end()
         } else {
             var err = new Error('Device not found')
             err.status = 404
@@ -182,7 +182,7 @@ app.post('/listeners', (req, res, next) => {
         } else {
             log.info(`Listener already registered: ${req.body.url}`)
         }
-        res.sendStatus(200)
+        res.end()
     }).catch((error) => {
         var err = new Error('Error while adding listener', error)
         err.status = 500
