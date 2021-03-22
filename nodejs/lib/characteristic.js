@@ -1,4 +1,9 @@
 class Characteristic {
+    static CarbonMonoxideDetected = {
+        CO_LEVELS_ABNORMAL: "detected",
+        CO_LEVELS_NORMAL: "clear"
+    }
+    
     static LockCurrentState = {
         UNSECURED: "unlocked",
         SECURED: "locked",

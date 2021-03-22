@@ -19,11 +19,19 @@
     ],
     "drivers": [
         {
-            "id": "2c35f60a-ddd7-4a9c-847e-20bebed3b021",
+            "id": "58fc9851-8889-4474-9684-68c696d9b74d",
             "name": "Vivint Camera",
             "version": "0.0.1",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-camera.groovy",
+            "required": true
+        },
+        {
+            "id": "94849c55-96bb-404e-9744-b898653d4c2f",
+            "name": "Vivint Carbon Monoxide Sensor",
+            "version": "0.0.1",
+            "namespace": "mikee385",
+            "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-carbon-monoxide-sensor.groovy",
             "required": true
         },
         {
