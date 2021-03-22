@@ -182,7 +182,7 @@ app.post('/listeners', (req, res, next) => {
         } else {
             log.info(`Listener already registered: ${req.body.url}`)
         }
-        res.sendStatus(201)
+        res.sendStatus(200)
     }).catch((error) => {
         var err = new Error('Error while adding listener', error)
         err.status = 500
