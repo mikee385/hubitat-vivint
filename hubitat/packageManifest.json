@@ -9,7 +9,7 @@
         {
             "id": "a2271fcc-829d-4df1-b017-a74194045550",
             "name": "Vivint Integration",
-            "version": "0.0.6",
+            "version": "0.0.7",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-integration.groovy",
             "required": true,
@@ -64,6 +64,14 @@
             "version": "0.0.2",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-panel.groovy",
+            "required": true
+        },
+        {
+            "id": "ea3be55c-b23e-4b6f-9128-14517b97af5d",
+            "name": "Vivint Smoke Sensor",
+            "version": "0.0.1",
+            "namespace": "mikee385",
+            "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-smoke-sensor.groovy",
             "required": true
         }
     ]

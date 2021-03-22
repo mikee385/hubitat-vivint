@@ -2,37 +2,26 @@ const Device = require('../device.js')
 const VivintDict = require("../vivint_dictionary.json")
 
 class SmokeSensor extends Device {
-    constructor(accessory, data, config, log, homebridge, vivintApi) {
-        super(accessory, data, config, log, homebridge, vivintApi)
-      
-      this.service = accessory.getService(this.Service.SmokeSensor)
-
-      this.batteryService.updateCharacteristic(this.Characteristic.ChargingState, this.Characteristic.ChargingState.NOT_CHARGEABLE)
-      
-      this.service
-        .getCharacteristic(this.Characteristic.SmokeDetected)
-        .on('get', callback => callback(null, this.getSensorState()))
-      
-      this.service
-        .getCharacteristic(this.Characteristic.StatusTampered)
-        .on('get', callback => callback(null, this.getTamperedState()))
-
-      this.notify()
+    constructor(id, name, type, data, config, log, vivintApi) {
+        super(id, name, type, data, config, log, vivintApi)
+		
+	      this.smoke = this.Characteristic.SmokeDetected.SMOKE_NOT_DETECTED
     }
 
-    getSensorState() {
-      if (Boolean(this.data.Status))
-        return this.Characteristic.SmokeDetected.SMOKE_DETECTED
-      else
-        return this.Characteristic.SmokeDetected.SMOKE_NOT_DETECTED
+    handleData(data) {
+      super.handleData(data)
+      	
+      this.contact = Boolean(data.Status)
+		    ? this.Characteristic.SmokeDetected.SMOKE_DETECTED
+		    : this.Characteristic.SmokeDetected.SMOKE_NOT_DETECTED
     }
 
-    notify() {
-      super.notify()
-      if (this.service) {
-        this.service.updateCharacteristic(this.Characteristic.SmokeDetected, this.getSensorState())
-        this.service.updateCharacteristic(this.Characteristic.StatusTampered, this.getTamperedState())
-      }
+    dumpState() {
+      let state = super.dumpState()
+      
+      state.smoke = this.smoke
+      
+      return state
     }
 
     static appliesTo (data) {
@@ -50,15 +39,6 @@ class SmokeSensor extends Device {
           (data.EquipmentCode == VivintDict.EquipmentCode.SMKT6_2GIG)
         ) 
       )
-    }
-
-    static inferCategory(data, Accessory) {
-        return Accessory.Categories.SENSOR
-    }
-
-    static addServices(accessory, Service) {
-      super.addServices(accessory, Service)
-      accessory.addService(new Service.SmokeSensor(accessory.context.name))
     }
   }
 

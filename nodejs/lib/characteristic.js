@@ -39,6 +39,11 @@ class Characteristic {
       DISARM: "disarm"
     }
     
+    static SmokeDetected = {
+        SMOKE_DETECTED: "detected",
+        SMOKE_NOT_DETECTED: "clear"
+    }
+    
     static StatusTampered  = {
         NOT_TAMPERED: "clear",
         TAMPERED: "detected"
