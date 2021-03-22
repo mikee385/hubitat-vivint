@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.1" }
+String getVersionNum() { return "0.0.2" }
 String getVersionLabel() { return "Vivint Panel, version ${getVersionNum()} on ${getPlatform()}" }
 
 String getType() { return "Panel" }
@@ -95,13 +95,13 @@ def update(deviceData) {
 }
 
 def armAway() {
-    log.warn "armAway command not implemented yet."
+    parent.sendCommand(state.id, "status", "arm away")
 }
 
 def armHome() {
-    log.warn "armHome command not implemented yet."
+    parent.sendCommand(state.id, "status", "arm home")
 }
 
 def disarm() {
-    log.warn "disarm command not implemented yet."
+    parent.sendCommand(state.id, "status", "disarm")
 }

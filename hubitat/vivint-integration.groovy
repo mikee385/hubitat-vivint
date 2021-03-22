@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.2" }
+String getVersionNum() { return "0.0.3" }
 String getVersionLabel() { return "Vivint Integration, version ${getVersionNum()} on ${getPlatform()}" }
 
 java.util.LinkedHashMap getTypeMap() { return [
@@ -116,7 +116,7 @@ def registerListener() {
     logDebug("Posting to ${listenerUrl} with ${listenerBody}")
     try {
         httpPostJson(listenerUrl, listenerBody) { response ->
-            if(response.status == 201) {
+            if(response.status == 200) {
                 log.info "Registered listener with server"
             } else {
                 log.error "${response.status}: ${response.data}"
@@ -207,4 +207,28 @@ def updateDevices(responseData) {
     } else {
         log.error "Unable to update devices from null data."
     }
+}
+
+def sendCommand(deviceID, attribute, command) {
+    def commandUrl = "${url}/devices/${deviceID}"
+    def commandBody = [ "${attribute}": "${command}" ]
+    logDebug("Posting to ${commandUrl} with ${commandBody}")
+    try {
+        httpPostJson(commandUrl, commandBody) { response ->
+            if(response.status == 200) {
+                log.info "Command sent to server"
+            } else {
+                log.error "${response.status}: ${response.data}"
+            }
+        }
+    } catch (ex) {
+        if(ex instanceof groovyx.net.http.HttpResponseException) {
+            if(ex.response) {
+                log.error "httpPost Response Exception | Status: ${ex.response.status} | Data: ${ex.response.data}"
+            }
+        } else {
+            log.error "httpPost Exception: ${ex.message}"
+        }
+    }
+    return null
 }

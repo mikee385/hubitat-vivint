@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.1" }
+String getVersionNum() { return "0.0.2" }
 String getVersionLabel() { return "Vivint Lock, version ${getVersionNum()} on ${getPlatform()}" }
 
 String getType() { return "Lock" }
@@ -97,9 +97,9 @@ def update(deviceData) {
 }
 
 def lock() {
-    log.warn "lock command not implemented yet."
+    parent.sendCommand(state.id, "lock", "lock")
 }
 
 def unlock() {
-    log.warn "unlock command not implemented yet."
+    parent.sendCommand(state.id, "lock", "unlock")
 }
