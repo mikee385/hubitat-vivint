@@ -14,10 +14,10 @@
  *
  */
  
-String getVersionNum() { return "0.0.1" }
+String getVersionNum() { return "0.0.2" }
 String getVersionLabel() { return "Vivint Contact Sensor, version ${getVersionNum()} on ${getPlatform()}" }
 
-String getType() { return "CarbonMonoxideSensor" }
+String getType() { return "ContactSensor" }
 String[] getTamperValues() { return ["clear", "detected"] }
 String[] getContactValues() { return ["closed", "open"] }
 

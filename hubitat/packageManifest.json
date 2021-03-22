@@ -37,7 +37,7 @@
         {
             "id": "f2fe4167-c2b6-4f3a-908f-d3f4b8a36728",
             "name": "Vivint Contact Sensor",
-            "version": "0.0.1",
+            "version": "0.0.2",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-contact-sensor.groovy",
             "required": true
