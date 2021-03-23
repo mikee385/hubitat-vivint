@@ -24,7 +24,7 @@ class Device {
       }
 
       if (!Object.is(data.Tamper, undefined)) {
-        this.tamper = Boolean(this.data.Tamper) 
+        this.tamper = Boolean(data.Tamper) 
           ? this.Characteristic.StatusTampered.TAMPERED
           : this.Characteristic.StatusTampered.NOT_TAMPERED
       }
