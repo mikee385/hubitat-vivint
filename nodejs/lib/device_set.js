@@ -14,6 +14,7 @@ const Camera = require("./accessories/camera.js")
 // const LightSwitch = require("./accessories/light_switch.js")
 // const DimmerSwitch = require("./accessories/dimmer_switch.js")
 const DoorbellCamera = require("./accessories/doorbell_camera.js")
+const GlassBreakSensor = require("./accessories/glass_break_sensor.js")
 
 function DeviceSetModule(config, log, vivintApi, listeners) {
 
@@ -212,7 +213,7 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
   }
 
   // let Devices = [ContactSensor, SmokeSensor, CarbonMonoxideSensor, MotionSensor, Lock, Thermostat, GarageDoor, Panel, Camera, LightSwitch, DimmerSwitch]
-  let Devices = [ContactSensor, SmokeSensor, CarbonMonoxideSensor, MotionSensor, Lock, Panel, Camera, DoorbellCamera]
+  let Devices = [ContactSensor, SmokeSensor, CarbonMonoxideSensor, MotionSensor, Lock, Panel, Camera, DoorbellCamera, GlassBreakSensor]
   return DeviceSet
 }
 
