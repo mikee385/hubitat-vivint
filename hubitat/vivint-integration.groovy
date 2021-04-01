@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.8" }
+String getVersionNum() { return "0.0.9" }
 String getVersionLabel() { return "Vivint Integration, version ${getVersionNum()} on ${getPlatform()}" }
 
 java.util.LinkedHashMap getTypeMap() { return [
@@ -22,6 +22,7 @@ java.util.LinkedHashMap getTypeMap() { return [
     "CarbonMonoxideSensor": "Vivint Carbon Monoxide Sensor",
     "ContactSensor": "Vivint Contact Sensor",
     "DoorbellCamera": "Vivint Doorbell Camera",
+    "GlassBreakSensor": "Vivint Glass Break Sensor",
     "Lock": "Vivint Lock",
     "MotionSensor": "Vivint Motion Sensor",
     "Panel": "Vivint Panel",

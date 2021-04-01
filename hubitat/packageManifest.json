@@ -3,13 +3,13 @@
     "author": "Michael Pierce",
     "minimumHEVersion": "1.0.0",
     "licenseFile": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/LICENSE",
-    "releaseNotes": "Turn off debug logging by default",
-    "dateReleased": "2021-03-31",
+    "releaseNotes": "Create separate device type for Glass Break Sensor",
+    "dateReleased": "2021-04-01",
     "apps": [
         {
             "id": "a2271fcc-829d-4df1-b017-a74194045550",
             "name": "Vivint Integration",
-            "version": "0.0.8",
+            "version": "0.0.9",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-integration.groovy",
             "required": true,
@@ -48,6 +48,14 @@
             "version": "0.0.2",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-doorbell-camera.groovy",
+            "required": true
+        },
+        {
+            "id": "d928071d-2c84-4c44-86b2-9cc8ad1e6882",
+            "name": "Vivint Glass Break Sensor",
+            "version": "0.0.1",
+            "namespace": "mikee385",
+            "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-glass-break-sensor.groovy",
             "required": true
         },
         {
