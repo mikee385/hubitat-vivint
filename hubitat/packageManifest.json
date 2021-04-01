@@ -3,7 +3,7 @@
     "author": "Michael Pierce",
     "minimumHEVersion": "1.0.0",
     "licenseFile": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/LICENSE",
-    "releaseNotes": "Set HSM status using Panel status",
+    "releaseNotes": "Turn off debug logging by default",
     "dateReleased": "2021-03-31",
     "apps": [
         {
@@ -21,7 +21,7 @@
         {
             "id": "58fc9851-8889-4474-9684-68c696d9b74d",
             "name": "Vivint Camera",
-            "version": "0.0.3",
+            "version": "0.0.4",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-camera.groovy",
             "required": true
@@ -29,7 +29,7 @@
         {
             "id": "94849c55-96bb-404e-9744-b898653d4c2f",
             "name": "Vivint Carbon Monoxide Sensor",
-            "version": "0.0.2",
+            "version": "0.0.3",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-carbon-monoxide-sensor.groovy",
             "required": true
@@ -37,7 +37,7 @@
         {
             "id": "f2fe4167-c2b6-4f3a-908f-d3f4b8a36728",
             "name": "Vivint Contact Sensor",
-            "version": "0.0.2",
+            "version": "0.0.3",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-contact-sensor.groovy",
             "required": true
@@ -45,7 +45,7 @@
         {
             "id": "2c35f60a-ddd7-4a9c-847e-20bebed3b021",
             "name": "Vivint Doorbell Camera",
-            "version": "0.0.1",
+            "version": "0.0.2",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-doorbell-camera.groovy",
             "required": true
@@ -53,7 +53,7 @@
         {
             "id": "1c920bad-4673-4d5a-9f4f-cfb0d59ecdfb",
             "name": "Vivint Lock",
-            "version": "0.0.2",
+            "version": "0.0.3",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-lock.groovy",
             "required": true
@@ -61,7 +61,7 @@
         {
             "id": "366c6722-d5d1-46f4-8b60-4bef6e0a9114",
             "name": "Vivint Motion Sensor",
-            "version": "0.0.1",
+            "version": "0.0.2",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-motion-sensor.groovy",
             "required": true
@@ -69,7 +69,7 @@
         {
             "id": "fa75c648-8fa2-4757-9bc0-225eb8aafab4",
             "name": "Vivint Panel",
-            "version": "0.0.3",
+            "version": "0.0.4",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-panel.groovy",
             "required": true
@@ -77,7 +77,7 @@
         {
             "id": "ea3be55c-b23e-4b6f-9128-14517b97af5d",
             "name": "Vivint Smoke Sensor",
-            "version": "0.0.1",
+            "version": "0.0.2",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-smoke-sensor.groovy",
             "required": true

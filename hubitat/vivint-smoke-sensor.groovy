@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.1" }
+String getVersionNum() { return "0.0.2" }
 String getVersionLabel() { return "Vivint Smoke Sensor, version ${getVersionNum()} on ${getPlatform()}" }
 
 String getType() { return "SmokeSensor" }
@@ -35,7 +35,7 @@ metadata {
     }
     preferences {
         section("Preferences") {
-            input "logEnable", "bool", required: false, title: "Show Debug Logs?", defaultValue: true
+            input "logEnable", "bool", required: false, title: "Show Debug Logs?", defaultValue: false
         }
     }
 }

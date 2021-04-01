@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.3" }
+String getVersionNum() { return "0.0.4" }
 String getVersionLabel() { return "Vivint Panel, version ${getVersionNum()} on ${getPlatform()}" }
 
 String getType() { return "Panel" }
@@ -39,7 +39,7 @@ metadata {
     preferences {
         section("Preferences") {
             input "pushStatusToHSM", "bool", required: false, title: "Push status to HSM?", defaultValue: true
-            input "logEnable", "bool", required: false, title: "Show Debug Logs?", defaultValue: true
+            input "logEnable", "bool", required: false, title: "Show Debug Logs?", defaultValue: false
         }
     }
 }

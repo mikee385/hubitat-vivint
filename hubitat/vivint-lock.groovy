@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.2" }
+String getVersionNum() { return "0.0.3" }
 String getVersionLabel() { return "Vivint Lock, version ${getVersionNum()} on ${getPlatform()}" }
 
 String getType() { return "Lock" }
@@ -34,7 +34,7 @@ metadata {
     }
     preferences {
         section("Preferences") {
-            input "logEnable", "bool", required: false, title: "Show Debug Logs?", defaultValue: true
+            input "logEnable", "bool", required: false, title: "Show Debug Logs?", defaultValue: false
         }
     }
 }
