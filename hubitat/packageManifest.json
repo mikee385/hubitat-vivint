@@ -3,8 +3,8 @@
     "author": "Michael Pierce",
     "minimumHEVersion": "1.0.0",
     "licenseFile": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/LICENSE",
-    "releaseNotes": "Implement sending commands to server",
-    "dateReleased": "2021-03-22",
+    "releaseNotes": "Set HSM status using Panel status",
+    "dateReleased": "2021-03-31",
     "apps": [
         {
             "id": "a2271fcc-829d-4df1-b017-a74194045550",
@@ -69,7 +69,7 @@
         {
             "id": "fa75c648-8fa2-4757-9bc0-225eb8aafab4",
             "name": "Vivint Panel",
-            "version": "0.0.2",
+            "version": "0.0.3",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-panel.groovy",
             "required": true

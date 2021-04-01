@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.2" }
+String getVersionNum() { return "0.0.3" }
 String getVersionLabel() { return "Vivint Panel, version ${getVersionNum()} on ${getPlatform()}" }
 
 String getType() { return "Panel" }
@@ -38,6 +38,7 @@ metadata {
     }
     preferences {
         section("Preferences") {
+            input "pushStatusToHSM", "bool", required: false, title: "Push status to HSM?", defaultValue: true
             input "logEnable", "bool", required: false, title: "Show Debug Logs?", defaultValue: true
         }
     }
@@ -85,6 +86,15 @@ def update(deviceData) {
 
     if (deviceData.status != null) {
         if (deviceData.status in statusValues) {
+            if (pushStatusToHSM) {
+                if (deviceData.status == "disarmed") {
+                    sendLocationEvent(name: "hsmSetArm", value: "disarm")
+                } else if (deviceData.status == "armed home") {
+                    sendLocationEvent(name: "hsmSetArm", value: "armNight")
+                } else if (deviceData.status == "armed away") {
+                    sendLocationEvent(name: "hsmSetArm", value: "armAway")
+                }
+            }
             sendEvent(name: "status", value: deviceData.status)
         } else {
             log.error "Unknown value for status: ${deviceData.status}"
