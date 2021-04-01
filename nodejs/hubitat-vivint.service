@@ -1,0 +1,13 @@
+[Unit]
+Description=Hubitat-Vivint Service
+After=network.target
+
+[Service]
+WorkingDirectory=<YOUR_WORING_DIRECTORY>/nodejs
+ExecStart=/usr/bin/npm start
+Restart=on-failure
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+

@@ -9,6 +9,11 @@ class Characteristic {
         CONTACT_DETECTED: "closed"
     }
     
+    static GlassBreakState = {
+        GLASS_BREAK_DETECTED: "detected",
+        GLASS_BREAK_NOT_DETECTED: "clear"
+    }
+    
     static LockCurrentState = {
         UNSECURED: "unlocked",
         SECURED: "locked",
