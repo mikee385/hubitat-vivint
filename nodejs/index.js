@@ -190,6 +190,23 @@ app.post('/listeners', (req, res, next) => {
     })
 })
 
+app.delete('/listeners', (req, res, next) => {
+    ListenersPromise.then((listeners) => {
+        if (listeners.includes(req.body.url)) {
+            log.info(`Removing listener: ${req.body.url}`)
+            listeners -= req.body.url
+            fs.promises.writeFile("listeners.json", JSON.stringify(listeners))
+        } else {
+            log.info(`Listener was not registered: ${req.body.url}`)
+        }
+        res.end()
+    }).catch((error) => {
+        var err = new Error('Error while removing listener', error)
+        err.status = 500
+        next(err)
+    })
+})
+
 app.use(function (req, res, next) {
     var err = new Error('Endpoint not found')
     err.status = 404
