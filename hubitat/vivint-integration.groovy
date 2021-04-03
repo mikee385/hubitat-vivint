@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.9" }
+String getVersionNum() { return "0.0.10" }
 String getVersionLabel() { return "Vivint Integration, version ${getVersionNum()} on ${getPlatform()}" }
 
 java.util.LinkedHashMap getTypeMap() { return [
@@ -54,7 +54,7 @@ preferences {
 mappings {
     path("/update") {
         action: [
-            POST: "updateHandler"
+            POST: "handleUpdate"
         ]
     }
 }
@@ -83,7 +83,7 @@ def initialize() {
     state.updateUrl = "${getFullLocalApiServerUrl()}/update?access_token=$state.accessToken"
     
     // Connect to server
-    initializeServerConnection()
+    connectToServer()
 }
 
 def logDebug(msg) {
@@ -92,7 +92,7 @@ def logDebug(msg) {
     }
 }
 
-def initializeServerConnection() {
+def connectToServer() {
     def devicesUrl = "${url}/devices"
     logDebug("Retrieving ${devicesUrl}")
     try {
@@ -124,6 +124,7 @@ def registerListener() {
         httpPostJson(listenerUrl, listenerBody) { response ->
             if(response.status == 200) {
                 log.info "Registered listener with server"
+                state.listenerId = response.data.id
             } else {
                 log.error "${response.status}: ${response.data}"
             }
@@ -189,7 +190,7 @@ def addDevice(deviceData) {
     return null
 }
 
-def updateHandler() {
+def handleUpdate() {
     if (request.JSON != null) {
         updateDevices(request.JSON)
     } else {
@@ -234,6 +235,29 @@ def sendCommand(deviceID, attribute, command) {
             }
         } else {
             log.error "httpPost Exception: ${ex.message}"
+        }
+    }
+    return null
+}
+
+def disconnectFromServer() {
+    def listenerUrl = "${url}/listeners/${state.listenerId}"
+    logDebug("Deleting ${listenerUrl}")
+    try {
+        httpDelete(listenerUrl) { response ->
+            if(response.status == 200) {
+                log.info "Removed listener from server"
+            } else {
+                log.error "${response.status}: ${response.data}"
+            }
+        }
+    } catch (ex) {
+        if(ex instanceof groovyx.net.http.HttpResponseException) {
+            if(ex.response) {
+                log.error "httpDelete Response Exception | Status: ${ex.response.status} | Data: ${ex.response.data}"
+            }
+        } else {
+            log.error "httpDelete Exception: ${ex.message}"
         }
     }
     return null

@@ -3,13 +3,13 @@
     "author": "Michael Pierce",
     "minimumHEVersion": "1.0.0",
     "licenseFile": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/LICENSE",
-    "releaseNotes": "Create separate device type for Glass Break Sensor",
-    "dateReleased": "2021-04-01",
+    "releaseNotes": "Complete functionality for listeners to be deleted",
+    "dateReleased": "2021-04-03",
     "apps": [
         {
             "id": "a2271fcc-829d-4df1-b017-a74194045550",
             "name": "Vivint Integration",
-            "version": "0.0.9",
+            "version": "0.0.10",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-integration.groovy",
             "required": true,

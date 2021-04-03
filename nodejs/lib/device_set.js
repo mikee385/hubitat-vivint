@@ -64,11 +64,11 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
       }
       
       if (listenerData) {
-        listeners.forEach((listener) => {
-          log.info(`Pushing update to ${listener}`)
-          log.debug(`Pushing update to ${listener}: ${JSON.stringify(listenerData)}`)
+        listeners.data.forEach((listener) => {
+          log.info(`Pushing update to ${listener.url}`)
+          log.debug(`Pushing update to ${listener.url}: ${JSON.stringify(listenerData)}`)
               
-          this.sendUpdateToListener(listener, listenerData)
+          this.sendUpdateToListener(listener.url, listenerData)
         })
       }
     }
@@ -117,11 +117,11 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
           })
       
           if (listenerData) {
-            listeners.forEach((listener) => {
-              log.info(`Pushing update to ${listener}`)
-              log.debug(`Pushing update to ${listener}: ${JSON.stringify(listenerData)}`)
+            listeners.data.forEach((listener) => {
+              log.info(`Pushing update to ${listener.url}`)
+              log.debug(`Pushing update to ${listener.url}: ${JSON.stringify(listenerData)}`)
               
-              this.sendUpdateToListener(listener, listenerData)
+              this.sendUpdateToListener(listener.url, listenerData)
             })
           }
         }
@@ -197,17 +197,17 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
       return device
     }
 
-    async sendUpdateToListener(listener, data) {
+    async sendUpdateToListener(listenerUrl, data) {
       try {
         let requestResult = await request({
           method: "POST",
-          uri: listener,
+          uri: listenerUrl,
           body: data,
           json: true
         })
       }
       catch (error) {
-        log.error('Error occured sending data to listener', error)
+        log.error('Error occured sending data to listener: ${listenerUrl}', error)
       }
     }
   }

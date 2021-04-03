@@ -34,7 +34,7 @@ app.listen(port, () => {
         
     ListenersPromise = fs.promises.readFile("listeners.json")
         .then((data) => JSON.parse(data))
-        .catch((error) => [])
+        .catch((error) => {nextId: 1, data: []})
 
     DeviceSetPromise = Promise.all([VivintApiPromise, PubNubPromise, ListenersPromise])
         .then(([vivintApi, pubNub, listeners]) => {
@@ -165,7 +165,7 @@ app.post('/devices/:id', (req, res, next) => {
 
 app.get('/listeners', (req, res, next) => {
     ListenersPromise.then((listeners) => {
-        res.send(listeners)
+        res.send(listeners.data)
     }).catch((error) => {
         var err = new Error('Error while loading listeners', error)
         err.status = 500
@@ -173,16 +173,36 @@ app.get('/listeners', (req, res, next) => {
     })
 })
 
+app.get('/listeners/:id', (req, res, next) => {
+    ListenersPromise.then((listeners) => {
+        var listener = listeners.data.find((element) => element.id == req.params.id)
+        if (!Object.is(listener, undefined)) {
+            res.send(listener)
+        } else {
+            var err = new Error(`Listener not found: ${req.params.id}`)
+            err.status = 404
+            next(err)   
+        }
+    }).catch((error) => {
+        var err = new Error('Error while loading listener', error)
+        err.status = 500
+        next(err)
+    })
+})
+
 app.post('/listeners', (req, res, next) => {
     ListenersPromise.then((listeners) => {
-        if (!listeners.includes(req.body.url)) {
-            log.info(`Registering new listener: ${req.body.url}`)
-            listeners.push(req.body.url)
+        var listener = listeners.data.find((element) => element.url == req.body.url)
+        if (Object.is(listener, undefined)) {
+            log.info(`Registering new listener ${listeners.nextId}: ${req.body.url}`)
+            listener = {id: listeners.nextId, url: req.body.url}
+            listeners.data.push(listener)
+            listeners.nextId += 1
             fs.promises.writeFile("listeners.json", JSON.stringify(listeners))
         } else {
-            log.info(`Listener already registered: ${req.body.url}`)
+            log.info(`Listener already registered ${listener.id}: ${req.body.url}`)
         }
-        res.end()
+        res.send(listener)
     }).catch((error) => {
         var err = new Error('Error while adding listener', error)
         err.status = 500
@@ -190,16 +210,19 @@ app.post('/listeners', (req, res, next) => {
     })
 })
 
-app.delete('/listeners', (req, res, next) => {
+app.delete('/listeners/:id', (req, res, next) => {
     ListenersPromise.then((listeners) => {
-        if (listeners.includes(req.body.url)) {
-            log.info(`Removing listener: ${req.body.url}`)
-            listeners -= req.body.url
+        var index = listeners.data.findIndex((element) => element.id == req.params.id)
+        if (index > -1) {
+            log.info(`Removing listener ${req.params.id}`)
+            listeners.data.splice(index, 1)
             fs.promises.writeFile("listeners.json", JSON.stringify(listeners))
+            res.end()
         } else {
-            log.info(`Listener was not registered: ${req.body.url}`)
+            var err = new Error(`Listener not found: ${req.params.id}`)
+            err.status = 404
+            next(err)
         }
-        res.end()
     }).catch((error) => {
         var err = new Error('Error while removing listener', error)
         err.status = 500
