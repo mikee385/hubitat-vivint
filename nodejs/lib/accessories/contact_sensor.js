@@ -34,9 +34,7 @@ class ContactSensor extends Device {
           (data.EquipmentCode == VivintDict.EquipmentCode.DW20_RECESSED_DOOR) || 
           (data.EquipmentCode == VivintDict.EquipmentCode.EXISTING_DOOR_WINDOW_CONTACT) ||
           (data.EquipmentCode == VivintDict.EquipmentCode.TAKE_TAKEOVER) || 
-          (data.EquipmentCode == VivintDict.EquipmentCode.TILT_SENSOR_2GIG_345) || 
-          (data.EquipmentCode == VivintDict.EquipmentCode.EXISTING_HEAT) || 
-          (data.EquipmentCode == VivintDict.EquipmentCode.EXISTING_FLOOD_TEMP)
+          (data.EquipmentCode == VivintDict.EquipmentCode.TILT_SENSOR_2GIG_345)
         ) 
       )
     }
