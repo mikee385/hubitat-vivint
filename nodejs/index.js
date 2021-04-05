@@ -33,8 +33,8 @@ app.listen(port, () => {
         .then((vivintApi) => vivintApi.connectPubNub())
         
     ListenersPromise = fs.promises.readFile("listeners.json")
-        .then((data) => JSON.parse(data))
-        .catch((error) => {nextId: 1, data: []})
+        .then((data) => {return JSON.parse(data)})
+        .catch((error) => {return {nextId: 1, data: []}})
 
     DeviceSetPromise = Promise.all([VivintApiPromise, PubNubPromise, ListenersPromise])
         .then(([vivintApi, pubNub, listeners]) => {
