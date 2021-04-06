@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.10" }
+String getVersionNum() { return "0.0.11" }
 String getVersionLabel() { return "Vivint Integration, version ${getVersionNum()} on ${getPlatform()}" }
 
 java.util.LinkedHashMap getTypeMap() { return [
@@ -64,6 +64,8 @@ def installed() {
 }
 
 def uninstalled() {
+    disconnectFromServer()
+    
     for (device in getChildDevices()) {
         deleteChildDevice(device.deviceNetworkId)
     }
@@ -244,7 +246,10 @@ def disconnectFromServer() {
     def listenerUrl = "${url}/listeners/${state.listenerId}"
     logDebug("Deleting ${listenerUrl}")
     try {
-        httpDelete(listenerUrl) { response ->
+        def params = [
+            uri: listenerUrl
+        ]
+        httpDelete(params) { response ->
             if(response.status == 200) {
                 log.info "Removed listener from server"
             } else {
