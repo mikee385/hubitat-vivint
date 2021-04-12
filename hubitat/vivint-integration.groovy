@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.11" }
+String getVersionNum() { return "0.0.12" }
 String getVersionLabel() { return "Vivint Integration, version ${getVersionNum()} on ${getPlatform()}" }
 
 java.util.LinkedHashMap getTypeMap() { return [
@@ -45,6 +45,11 @@ preferences {
             input "url", "text", title: "Server URL", multiple: false, required: true
         }
         section {
+            input name: "alertOffline", type: "bool", title: "Alert when offline?", defaultValue: false
+            input "offlineDuration", "number", title: "Minimum time before offline (in minutes)", required: true, defaultValue: 60
+        }
+        section {
+            input "notifier", "capability.notification", title: "Notification Device", multiple: false, required: true
             input name: "logEnable", type: "bool", title: "Enable debug logging?", defaultValue: false
             label title: "Assign a name", required: true
         }
@@ -86,6 +91,7 @@ def initialize() {
     
     // Connect to server
     connectToServer()
+    heartbeat()
 }
 
 def logDebug(msg) {
@@ -196,12 +202,14 @@ def handleUpdate() {
     if (request.JSON != null) {
         updateDevices(request.JSON)
     } else {
+        state.healthStatus = "unhealthy"
         log.error "Received update that was not JSON: $request"
     }
 }
 
 def updateDevices(responseData) {
     if (responseData != null) {
+        heartbeat()
         for(deviceData in responseData) {
             logDebug(deviceData)
 
@@ -214,6 +222,7 @@ def updateDevices(responseData) {
             }
         }
     } else {
+        state.healthStatus = "unhealthy"
         log.error "Unable to update devices from null data."
     }
 }
@@ -266,4 +275,17 @@ def disconnectFromServer() {
         }
     }
     return null
+}
+
+def heartbeat() {
+    unschedule("healthCheck")
+    state.healthStatus = "online"
+    runIn(60*offlineDuration, healthCheck)
+}
+
+def healthCheck() {
+    state.healthStatus = "offline"
+    if (alertOffline) {
+        notifier.deviceNotification("${getLabel()} is offline!")
+    }
 }
