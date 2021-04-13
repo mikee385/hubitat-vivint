@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.12" }
+String getVersionNum() { return "0.0.13" }
 String getVersionLabel() { return "Vivint Integration, version ${getVersionNum()} on ${getPlatform()}" }
 
 java.util.LinkedHashMap getTypeMap() { return [
@@ -286,6 +286,6 @@ def heartbeat() {
 def healthCheck() {
     state.healthStatus = "offline"
     if (alertOffline) {
-        notifier.deviceNotification("${getLabel()} is offline!")
+        notifier.deviceNotification("${app.getLabel()} is offline!")
     }
 }

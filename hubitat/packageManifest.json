@@ -3,13 +3,13 @@
     "author": "Michael Pierce",
     "minimumHEVersion": "1.0.0",
     "licenseFile": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/LICENSE",
-    "releaseNotes": "Add health check",
-    "dateReleased": "2021-04-12",
+    "releaseNotes": "Fix app label in offline alert",
+    "dateReleased": "2021-04-13",
     "apps": [
         {
             "id": "a2271fcc-829d-4df1-b017-a74194045550",
             "name": "Vivint Integration",
-            "version": "0.0.12",
+            "version": "0.0.13",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-integration.groovy",
             "required": true,
