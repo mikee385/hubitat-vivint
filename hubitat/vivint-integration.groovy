@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.13" }
+String getVersionNum() { return "0.0.14" }
 String getVersionLabel() { return "Vivint Integration, version ${getVersionNum()} on ${getPlatform()}" }
 
 java.util.LinkedHashMap getTypeMap() { return [
@@ -46,7 +46,7 @@ preferences {
         }
         section {
             input name: "alertOffline", type: "bool", title: "Alert when offline?", defaultValue: false
-            input "offlineDuration", "number", title: "Minimum time before offline (in minutes)", required: true, defaultValue: 60
+            input "offlineDuration", "number", title: "Minimum time before offline (in minutes)", required: true, defaultValue: 90
         }
         section {
             input "notifier", "capability.notification", title: "Notification Device", multiple: false, required: true
