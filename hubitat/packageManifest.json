@@ -77,7 +77,7 @@
         {
             "id": "fa75c648-8fa2-4757-9bc0-225eb8aafab4",
             "name": "Vivint Panel",
-            "version": "0.0.4",
+            "version": "0.0.5",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-panel.groovy",
             "required": true
