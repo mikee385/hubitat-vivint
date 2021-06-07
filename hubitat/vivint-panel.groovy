@@ -30,7 +30,7 @@ metadata {
 	    capability "Actuator"
         capability "Sensor"
 
-        attribute "status", "enum", ["disarmed", "armed home", "armed away", "alarm"]
+        attribute "alarm", "enum", ["disarmed", "armed home", "armed away", "alarm"]
         
         command "armAway"
         command "armHome"
@@ -95,7 +95,7 @@ def update(deviceData) {
                     sendLocationEvent(name: "hsmSetArm", value: "armAway")
                 }
             }
-            sendEvent(name: "status", value: deviceData.status)
+            sendEvent(name: "alarm", value: deviceData.status)
         } else {
             log.error "Unknown value for status: ${deviceData.status}"
         }
