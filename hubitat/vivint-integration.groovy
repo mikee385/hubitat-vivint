@@ -1,7 +1,7 @@
 /**
  *  Vivint Integration
  *
- *  Copyright 2021 Michael Pierce
+ *  Copyright 2022 Michael Pierce
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.14" }
+String getVersionNum() { return "0.0.16" }
 String getVersionLabel() { return "Vivint Integration, version ${getVersionNum()} on ${getPlatform()}" }
 
 java.util.LinkedHashMap getTypeMap() { return [
@@ -43,6 +43,9 @@ preferences {
     page(name: "settings", title: "Vivint Integration", install: true, uninstall: true) {
         section {
             input "url", "text", title: "Server URL", multiple: false, required: true
+        }
+        section {
+            input "alarmPanel", "device.VivintPanel", title: "Sync Panel to HSM", multiple: false, required: false
         }
         section {
             input name: "alertOffline", type: "bool", title: "Alert when offline?", defaultValue: false
@@ -92,6 +95,12 @@ def initialize() {
     // Connect to server
     connectToServer()
     heartbeat()
+    
+    // Sync to HSM
+    if (alarmPanel) {
+        subscribe(alarmPanel, "alarm", handler_PanelToHSM)
+        susbribe(location, "hsmSetArm", handler_HSMToPanel)
+    }
 }
 
 def logDebug(msg) {
@@ -288,4 +297,41 @@ def healthCheck() {
     if (alertOffline) {
         notifier.deviceNotification("${app.getLabel()} is offline!")
     }
+}
+
+def handler_PanelToHSM(evt) {
+    logDebug("handler_PanelToHSM: ${evt.device} changed to ${evt.value}")
+    
+    if (evt.value == "disarmed") {
+        if (location.hsmStatus != "disarmed" && location.hsmStatus != "allDisarmed") {
+            sendLocationEvent(name: "hsmSetArm", value: "disarm")
+        }
+    } else if (evt.value == "armed home") {
+        if (location.hsmStatus != "armingNight" && location.hsmStatus != "armedNight" && location.hsmStatus != "armingHome" && location.hsmStatus != "armedHome") {
+            sendLocationEvent(name: "hsmSetArm", value: "armNight")
+        }
+        sendLocationEvent(name: "hsmSetArm", value: "armNight")
+    } else if (evt.value == "armed away") {
+        if (location.hsmStatus != "armingAway" && location.hsmStatus != "armedAway") {
+            sendLocationEvent(name: "hsmSetArm", value: "armAway")
+        }
+    }
+}
+
+def handler_HSMToPanel(evt) {
+    logDebug("handler_HSMToPanel: HSM changed to ${evt.value}")
+    
+    if (evt.value == "disarmed" || evt.value == "allDisarmed") {
+        if (alarmPanel.currentValue("alarm") != "disarmed") {
+            alarmPanel.disarm()
+        }
+    } else if (evt.value == "armingNight" || evt.value == "armedNight" || evt.value == "armingHome" || evt.value == "armedHome") {
+        if (alarmPanel.currentValue("alarm") != "armed home") {
+            alarmPanel.armHome()
+        }
+    } else if (evt.value == "armingAway" || evt.value == "armedAway") {
+        if (alarmPanel.currentValue("alarm") != "armed away") {
+            alarmPanel.armAway()
+        }
+    } 
 }
