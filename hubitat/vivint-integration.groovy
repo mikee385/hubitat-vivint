@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.17" }
+String getVersionNum() { return "0.0.18" }
 String getVersionLabel() { return "Vivint Integration, version ${getVersionNum()} on ${getPlatform()}" }
 
 java.util.LinkedHashMap getTypeMap() { return [
@@ -99,7 +99,7 @@ def initialize() {
     // Sync to HSM
     if (alarmPanel) {
         subscribe(alarmPanel, "alarm", handler_PanelToHSM)
-        subscribe(location, "hsmSetArm", handler_HSMToPanel)
+        subscribe(location, "hsmStatus", handler_HSMToPanel)
     }
 }
 
