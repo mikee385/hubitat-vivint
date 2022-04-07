@@ -1,3 +1,7 @@
+## 0.0.14 (2022-04-07)
+### Changes
+- Added support for Multi Factor Authentication (thanks to @jgrimard and @arjunmehta)
+
 ## 0.0.13 (2021-03-12)
 ### Changes
 - Add package.lock

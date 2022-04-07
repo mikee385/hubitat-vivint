@@ -64,6 +64,9 @@ web_modules/
 
 # Output of ‘npm pack’
 *.tgz
+scratch
+dist
+build
 
 # Yarn Integrity file
 .yarn-integrity
@@ -118,3 +121,4 @@ dist
 # Configuration files
 development.json
 listeners.json
+local.json

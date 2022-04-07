@@ -1,13 +1,16 @@
 {
   "name": "hubitat-vivint",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Provides a REST web server for interacting with the Vivint API, specifically for use with Hubitat",
   "private": true,
   "license": "Apache-2.0",
   "author": "Michael Pierce <mikee385@gmail.com>",
   "contributors": [
     "Tim Harper <timcharper@gmail.com>",
-    "Alexandr Balan <balansse@gmail.com>"
+    "Alexandr Balan <balansse@gmail.com>",
+    "daymondm",
+    "jgrimard",
+    "arjunmehta"
   ],
   "keywords": [
     "hubitat",
@@ -27,11 +30,14 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "config": "^3.3.6",
+    "debounce-promise": "^3.1.2",
     "express": "^4.17.1",
+    "get-port": "^5.1.1",
     "isobject": "^3.0.1",
     "jpeg-extract": "^3.0.1",
     "morgan": "^1.10.0",
     "pubnub": "^4.29.11",
+    "request": "^2.88.2",
     "request-promise-native": "^1.0.9",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.1"
@@ -42,6 +48,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "mfa": "node scripts/vivint_mfa_cli",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

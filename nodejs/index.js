@@ -27,7 +27,7 @@ app.listen(port, () => {
     let config_apiLoginRefreshSecs = config.apiLoginRefreshSecs || 1200 // once per 20 minutes default
 
     let VivintApi = VivintApiModule(config, log)
-    VivintApiPromise = VivintApi.login({username: config.username, password: config.password})
+    VivintApiPromise = VivintApi.login({refreshToken: config.refreshToken})
 
     PubNubPromise = VivintApiPromise
         .then((vivintApi) => vivintApi.connectPubNub())
