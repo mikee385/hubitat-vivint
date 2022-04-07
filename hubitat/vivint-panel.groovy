@@ -1,7 +1,7 @@
 /**
  *  Vivint Panel Driver
  *
- *  Copyright 2021 Michael Pierce
+ *  Copyright 2022 Michael Pierce
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -14,7 +14,7 @@
  *
  */
  
-String getVersionNum() { return "0.0.4" }
+String getVersionNum() { return "0.0.6" }
 String getVersionLabel() { return "Vivint Panel, version ${getVersionNum()} on ${getPlatform()}" }
 
 String getType() { return "Panel" }
@@ -30,7 +30,7 @@ metadata {
 	    capability "Actuator"
         capability "Sensor"
 
-        attribute "status", "enum", ["disarmed", "armed home", "armed away", "alarm"]
+        attribute "alarm", "enum", ["disarmed", "armed home", "armed away", "alarm"]
         
         command "armAway"
         command "armHome"
@@ -38,7 +38,6 @@ metadata {
     }
     preferences {
         section("Preferences") {
-            input "pushStatusToHSM", "bool", required: false, title: "Push status to HSM?", defaultValue: true
             input "logEnable", "bool", required: false, title: "Show Debug Logs?", defaultValue: false
         }
     }
@@ -86,16 +85,7 @@ def update(deviceData) {
 
     if (deviceData.status != null) {
         if (deviceData.status in statusValues) {
-            if (pushStatusToHSM) {
-                if (deviceData.status == "disarmed") {
-                    sendLocationEvent(name: "hsmSetArm", value: "disarm")
-                } else if (deviceData.status == "armed home") {
-                    sendLocationEvent(name: "hsmSetArm", value: "armNight")
-                } else if (deviceData.status == "armed away") {
-                    sendLocationEvent(name: "hsmSetArm", value: "armAway")
-                }
-            }
-            sendEvent(name: "status", value: deviceData.status)
+            sendEvent(name: "alarm", value: deviceData.status)
         } else {
             log.error "Unknown value for status: ${deviceData.status}"
         }
