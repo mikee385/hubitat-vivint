@@ -1,57 +1,59 @@
 class Characteristic {
-    static CarbonMonoxideDetected = {
-        CO_LEVELS_ABNORMAL: "detected",
-        CO_LEVELS_NORMAL: "clear"
-    }
-    
-    static ContactSensorState = {
-        CONTACT_NOT_DETECTED: "open",
-        CONTACT_DETECTED: "closed"
-    }
-    
-    static GlassBreakState = {
-        GLASS_BREAK_DETECTED: "detected",
-        GLASS_BREAK_NOT_DETECTED: "clear"
-    }
-    
-    static LockCurrentState = {
-        UNSECURED: "unlocked",
-        SECURED: "locked",
-        JAMMED: "unknown",
-        UNKNOWN: "unknown"
-    }
-    
-    static LockTargetState = {
-        UNSECURED: "unlock",
-        SECURED: "lock"
-    }
-    
-    static MotionDetected = {
-        INACTIVE: "inactive",
-        ACTIVE: "active"
-    }
+    constructor() {
+        this.CarbonMonoxideDetected = {
+            CO_LEVELS_ABNORMAL: "detected",
+            CO_LEVELS_NORMAL: "clear"
+        }
+        
+        this.ContactSensorState = {
+            CONTACT_NOT_DETECTED: "open",
+            CONTACT_DETECTED: "closed"
+        }
+        
+        this.GlassBreakState = {
+            GLASS_BREAK_DETECTED: "detected",
+            GLASS_BREAK_NOT_DETECTED: "clear"
+        }
+        
+        this.LockCurrentState = {
+            UNSECURED: "unlocked",
+            SECURED: "locked",
+            JAMMED: "unknown",
+            UNKNOWN: "unknown"
+        }
+        
+        this.LockTargetState = {
+            UNSECURED: "unlock",
+            SECURED: "lock"
+        }
+        
+        this.MotionDetected = {
+            INACTIVE: "inactive",
+            ACTIVE: "active"
+        }
 
-    static SecuritySystemCurrentState = {
-      STAY_ARM: "armed home",
-      AWAY_ARM: "armed away",
-      DISARMED: "disarmed",
-      ALARM_TRIGGERED: "alarm"
-    }
+        this.SecuritySystemCurrentState = {
+          STAY_ARM: "armed home",
+          AWAY_ARM: "armed away",
+          DISARMED: "disarmed",
+          ALARM_TRIGGERED: "alarm"
+        }
 
-    static SecuritySystemTargetState = {
-      STAY_ARM: "arm home",
-      AWAY_ARM: "arm away",
-      DISARM: "disarm"
-    }
-    
-    static SmokeDetected = {
-        SMOKE_DETECTED: "detected",
-        SMOKE_NOT_DETECTED: "clear"
-    }
-    
-    static StatusTampered  = {
-        NOT_TAMPERED: "clear",
-        TAMPERED: "detected"
+        this.SecuritySystemTargetState = {
+          STAY_ARM: "arm home",
+          AWAY_ARM: "arm away",
+          DISARM: "disarm"
+        }
+        
+        this.SmokeDetected = {
+            SMOKE_DETECTED: "detected",
+            SMOKE_NOT_DETECTED: "clear"
+        }
+        
+        this.StatusTampered  = {
+            NOT_TAMPERED: "clear",
+            TAMPERED: "detected"
+        }
     }
 }
 

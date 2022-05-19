@@ -2,7 +2,7 @@ const Characteristic = require("./characteristic.js")
 
 class Device {
     constructor(id, name, type, data, config, log, vivintApi) {    
-        this.Characteristic = Characteristic
+        this.Characteristic = new Characteristic()
 
         this.config = config
         this.log = log
