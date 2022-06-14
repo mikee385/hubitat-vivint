@@ -1,3 +1,7 @@
+## 0.0.16 (2022-06-13)
+### Changes
+- Add support for Garage Door
+
 ## 0.0.15 (2022-05-19)
 ### Changes
 - Remove static class fields from characteristic.js to support Node.js versions below 12

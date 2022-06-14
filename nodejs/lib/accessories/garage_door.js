@@ -2,93 +2,69 @@ const Device = require('../device.js')
 const VivintDict = require("../vivint_dictionary.json")
 
 class GarageDoor extends Device {
-    constructor(accessory, data, config, log, homebridge, vivintApi) {
-        super(accessory, data, config, log, homebridge, vivintApi)
-      this.service = accessory.getService(this.Service.GarageDoorOpener)
-
-      this.service
-        .getCharacteristic(this.Characteristic.CurrentDoorState)
-        .on('get', (next) => next(null, this.doorCurrentValue()));
-
-      this.service
-        .getCharacteristic(this.Characteristic.TargetDoorState)
-        .on('get', (next) => next(null, this.doorCurrentValue()))
-        .on('set', this.setDoorTargetStateCharacteristic.bind(this))
+    constructor(id, name, type, data, config, log, vivintApi) {
+        super(id, name, type, data, config, log, vivintApi)
+        
+        this.door = this.Characteristic.CurrentDoorState.UNKNOWN
+    }
+    
+    handleData(data) {
+      super.handleData(data)
+      
+      if (!Object.is(data.Status, undefined)) {
+        if (data.Status == VivintDict.GarageDoorStates.Closed) {
+          this.door = this.Characteristic.CurrentDoorState.CLOSED
+        } else if (data.Status == VivintDict.GarageDoorStates.Closing) {
+          this.door = this.Characteristic.CurrentDoorState.CLOSING
+        } else if (data.Status == VivintDict.GarageDoorStates.Opening) {
+          this.door = this.Characteristic.CurrentDoorState.OPENING
+        } else if (data.Status == VivintDict.GarageDoorStates.Open) {
+          this.door = this.Characteristic.CurrentDoorState.OPEN
+        } else {
+          this.door = this.Characteristic.CurrentDoorState.UNKNOWN
+        }
+      }
+    }
+    
+    async handleCommand(data) {
+      if (!Object.is(data.door, undefined)) {
+        await this.setTargetState(data.door)
+      } else {
+        throw new Error(`Unknown command: ${data}`)
+      }
     }
 
-    //TODO: refactor this
-    setDoorTargetStateCharacteristic(targetState, next) {
-      if (targetState) {
-        this.service
-          .getCharacteristic(this.Characteristic.TargetDoorState)
-          .updateValue(this.Characteristic.TargetDoorState.CLOSED)
-
-        this.vivintApi.putDevice('door', this.id, {
-            s: VivintDict.GarageDoorStates.Closing,
-            _id: this.id
-          })
-          .then(
-            (success) => next(),
-            (failure) => {
-              log.error("Failure setting garage door state:", failure)
-              next(failure)
+    async setTargetState(targetState) {
+      try {
+        if (targetState == this.Characteristic.TargetDoorState.CLOSED) {
+          await this.vivintApi.putDevice('door', this.id, {
+              s: VivintDict.GarageDoorStates.Closing,
+              _id: this.id
             })
-      } else {
-        this.service
-          .getCharacteristic(this.Characteristic.TargetDoorState)
-          .updateValue(this.Characteristic.TargetDoorState.OPEN)
-
-        this.vivintApi.putDevice('door', this.id, {
+        } else if (targetState == this.Characteristic.TargetDoorState.OPEN) {
+          await this.vivintApi.putDevice('door', this.id, {
             s: VivintDict.GarageDoorStates.Opening,
             _id: this.id
           })
-          .then(
-            (success) => next(),
-            (failure) => {
-              log.error("Failure setting garage door state:", failure)
-              next(failure)
-            })
+        } else {
+          throw new Error(`Unknown garage door state: ${targetState}`)
+        }
+      }
+      catch (err) {
+        this.log.error("Failure setting garage door state:", err)
       }
     }
 
-    doorCurrentValue() {
-      switch(this.data.Status){
-        case VivintDict.GarageDoorStates.Unknown: // unknown state but this eliminates double notification
-        case VivintDict.GarageDoorStates.Closed:
-          return this.Characteristic.CurrentDoorState.CLOSED
-
-        case VivintDict.GarageDoorStates.Closing:
-          return this.Characteristic.CurrentDoorState.CLOSING
-
-        case VivintDict.GarageDoorStates.Opening:
-          return this.Characteristic.CurrentDoorState.OPENING
-
-        case VivintDict.GarageDoorStates.Open:
-          return this.Characteristic.CurrentDoorState.OPEN
-
-        default:
-          return this.Characteristic.CurrentDoorState.STOPPED
-      }
-    }
-
-    notify() {
-      super.notify()
-      if (this.service) {
-        this.service.getCharacteristic(this.Characteristic.CurrentDoorState)
-          .updateValue(this.doorCurrentValue())
-      }
+    dumpState() {
+      let state = super.dumpState()
+      
+      state.door = this.door
+      
+      return state
     }
 
     static appliesTo(data) {
-      return data.Type == VivintDict.PanelDeviceType.GarageDoor
-    }
-
-    static inferCategory(data, Accessory) {
-      return Accessory.Categories.GARAGE_DOOR_OPENER
-    }
-
-    static addServices(accessory, Service) {
-      accessory.addService(new Service.GarageDoorOpener(accessory.context.name))
+      return data.Type == VivintDict.PanelDeviceType.GarageDoor 
     }
   }
 

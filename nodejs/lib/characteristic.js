@@ -10,6 +10,19 @@ class Characteristic {
             CONTACT_DETECTED: "closed"
         }
         
+        this.CurrentDoorState = {
+            CLOSED: "closed",
+            CLOSING: "closing",
+            OPEN: "open",
+            OPENING: "opening",
+            UNKNOWN: "unknown"
+        }
+        
+        this.TargetDoorState = {
+            CLOSED: "close",
+            OPEN: "open"
+        }
+        
         this.GlassBreakState = {
             GLASS_BREAK_DETECTED: "detected",
             GLASS_BREAK_NOT_DETECTED: "clear"

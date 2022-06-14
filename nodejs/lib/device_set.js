@@ -213,7 +213,7 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
   }
 
   // let Devices = [ContactSensor, SmokeSensor, CarbonMonoxideSensor, MotionSensor, Lock, Thermostat, GarageDoor, Panel, Camera, LightSwitch, DimmerSwitch]
-  let Devices = [ContactSensor, SmokeSensor, CarbonMonoxideSensor, MotionSensor, Lock, Panel, Camera, DoorbellCamera, GlassBreakSensor]
+  let Devices = [ContactSensor, SmokeSensor, CarbonMonoxideSensor, MotionSensor, Lock, GarageDoor, Panel, Camera, DoorbellCamera, GlassBreakSensor]
   return DeviceSet
 }
 
