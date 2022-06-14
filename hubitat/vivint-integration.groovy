@@ -22,6 +22,7 @@ java.util.LinkedHashMap getTypeMap() { return [
     "CarbonMonoxideSensor": "Vivint Carbon Monoxide Sensor",
     "ContactSensor": "Vivint Contact Sensor",
     "DoorbellCamera": "Vivint Doorbell Camera",
+    "GarageDoor": "Vivint Garage Door",
     "GlassBreakSensor": "Vivint Glass Break Sensor",
     "Lock": "Vivint Lock",
     "MotionSensor": "Vivint Motion Sensor",

@@ -4,7 +4,7 @@
     "minimumHEVersion": "1.0.0",
     "licenseFile": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/LICENSE",
     "releaseNotes": "Add bi-directional sync of alarm status with HSM",
-    "dateReleased": "2022-02-19",
+    "dateReleased": "2022-06-13",
     "apps": [
         {
             "id": "a2271fcc-829d-4df1-b017-a74194045550",
@@ -48,6 +48,14 @@
             "version": "0.0.2",
             "namespace": "mikee385",
             "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-doorbell-camera.groovy",
+            "required": true
+        },
+        {
+            "id": "30f7f867-0b13-4e46-92ae-1ca8d8616cc9",
+            "name": "Vivint Garage Door",
+            "version": "0.0.1",
+            "namespace": "mikee385",
+            "location": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/hubitat/vivint-garage-door.groovy",
             "required": true
         },
         {
