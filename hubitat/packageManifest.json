@@ -3,7 +3,7 @@
     "author": "Michael Pierce",
     "minimumHEVersion": "1.0.0",
     "licenseFile": "https://raw.githubusercontent.com/mikee385/hubitat-vivint/master/LICENSE",
-    "releaseNotes": "Add bi-directional sync of alarm status with HSM",
+    "releaseNotes": "Add support for Garage Door",
     "dateReleased": "2022-06-13",
     "apps": [
         {
