@@ -16,12 +16,16 @@ class GarageDoor extends Device {
           this.door = this.Characteristic.CurrentDoorState.CLOSED
         } else if (data.Status == VivintDict.GarageDoorStates.Closing) {
           this.door = this.Characteristic.CurrentDoorState.CLOSING
+        } else if (data.Status == VivintDict.GarageDoorStates.Opened) {
+          this.door = this.Characteristic.CurrentDoorState.OPEN
         } else if (data.Status == VivintDict.GarageDoorStates.Opening) {
           this.door = this.Characteristic.CurrentDoorState.OPENING
-        } else if (data.Status == VivintDict.GarageDoorStates.Open) {
-          this.door = this.Characteristic.CurrentDoorState.OPEN
-        } else {
+        } else if (data.Status == VivintDict.GarageDoorStates.Stopped) {
           this.door = this.Characteristic.CurrentDoorState.UNKNOWN
+        } else if (data.Status == VivintDict.GarageDoorStates.Unknown) {
+          this.door = this.Characteristic.CurrentDoorState.UNKNOWN
+        } else {
+          throw new Error(`Unknown door status: ${data.Status}`)
         }
       }
     }

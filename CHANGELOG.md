@@ -1,3 +1,7 @@
+## 0.0.17 (2022-06-14)
+### Changes
+- Fix issue where “open” state is set as “unknown” for Garage Door
+
 ## 0.0.16 (2022-06-13)
 ### Changes
 - Add support for Garage Door
