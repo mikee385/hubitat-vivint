@@ -1,3 +1,7 @@
+## 0.0.18 (2022-06-15)
+### Changes
+- Fix issue that made things worse for Garage Door (thanks to user920)
+
 ## 0.0.17 (2022-06-14)
 ### Changes
 - Fix issue where “open” state is set as “unknown” for Garage Door

@@ -22,10 +22,8 @@ class GarageDoor extends Device {
           this.door = this.Characteristic.CurrentDoorState.OPENING
         } else if (data.Status == VivintDict.GarageDoorStates.Stopped) {
           this.door = this.Characteristic.CurrentDoorState.UNKNOWN
-        } else if (data.Status == VivintDict.GarageDoorStates.Unknown) {
-          this.door = this.Characteristic.CurrentDoorState.UNKNOWN
         } else {
-          throw new Error(`Unknown door status: ${data.Status}`)
+          this.door = this.Characteristic.CurrentDoorState.UNKNOWN
         }
       }
     }
