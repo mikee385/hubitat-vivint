@@ -21,10 +21,27 @@ var PubNubPromise
 var ListenersPromise
 var DeviceSetPromise
 
+const request = require("request-promise-native")
+
+const sendHeartbeat = (listeners) => Promise.all(
+    listeners.data.map(async (listener) => {
+        log.info(`Sending heartbeat to ${listener.heartbeatUrl}`)
+        return request({
+            method: "GET",
+            uri: listener.heartbeatUrl
+        }).then((response) => { 
+            log.debug('Heartbeat response', response) 
+        }).catch((error) => {
+            log.error(`Failed to send heartbeat to ${listener.heartbeatUrl}`, error)
+        })
+    })
+);
+
 app.listen(port, () => {
     log.info('Initializing...')
 
-    let config_apiLoginRefreshSecs = config.apiLoginRefreshSecs || 1200 // once per 20 minutes default
+    const config_apiLoginRefreshSecs = config.apiLoginRefreshSecs || 1200 // once per 20 minutes default
+    const config_heartbeatSecs = config.heartbeatSecs || 1000
 
     let VivintApi = VivintApiModule(config, log)
     VivintApiPromise = VivintApi.login({refreshToken: config.refreshToken})
@@ -74,6 +91,9 @@ app.listen(port, () => {
             })
             deviceSet.handleSnapshot(vivintApi.deviceSnapshot(), vivintApi.deviceSnapshotTs())
 
+            // Service heartbeat - necessary if no updates received or if snapshots have not changed
+            ListenersPromise.then((listeners) => setInterval(sendHeartbeat(listeners), config_heartbeatSecs));
+
             //Refreshing the token
             setInterval(() => {
                 vivintApi.renew()
@@ -86,11 +106,13 @@ app.listen(port, () => {
             //Setting up the system info refresh to keep the notification stream active
             setInterval(() => {
                 vivintApi.renewSystemInfo()
-                    .then((vivintApi) => deviceSet.handleSnapshot(vivintApi.deviceSnapshot(), vivintApi.deviceSnapshotTs()))
+                    .then((vivintApi) => (
+                        deviceSet.handleSnapshot(vivintApi.deviceSnapshot(), vivintApi.deviceSnapshotTs())
+                    ))
                     .catch((error) => {
                         log.error("Error getting system info: ", error)
                     })
-            }, (config_apiLoginRefreshSecs / 20) * 1000)
+            }, config_heartbeatSecs)
 
             log.info(`Listening on port ${port}!`)
             
@@ -192,15 +214,15 @@ app.get('/listeners/:id', (req, res, next) => {
 
 app.post('/listeners', (req, res, next) => {
     ListenersPromise.then((listeners) => {
-        var listener = listeners.data.find((element) => element.url == req.body.url)
+        var listener = listeners.data.find((element) => element.updateUrl == req.body.updateUrl)
         if (Object.is(listener, undefined)) {
-            log.info(`Registering new listener ${listeners.nextId}: ${req.body.url}`)
-            listener = {id: listeners.nextId, url: req.body.url}
+            log.info(`Registering new listener ${listeners.nextId}: ${req.body.updateUrl}`)
+            listener = {id: listeners.nextId, updateUrl: req.body.updateUrl, heartbeatUrl: req.body.heartbeatUrl}
             listeners.data.push(listener)
             listeners.nextId += 1
             fs.promises.writeFile("listeners.json", JSON.stringify(listeners))
         } else {
-            log.info(`Listener already registered ${listener.id}: ${req.body.url}`)
+            log.info(`Listener already registered ${listener.id}: ${req.body.updateUrl}`)
         }
         res.send(listener)
     }).catch((error) => {

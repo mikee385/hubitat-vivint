@@ -65,6 +65,11 @@ mappings {
         action: [
             POST: "handleUpdate"
         ]
+    },
+    path("/heartbeat") {
+        action: [
+            GET: "heartbeat"
+        ]
     }
 }
 
@@ -92,6 +97,7 @@ def initialize() {
         createAccessToken()
     }
     state.updateUrl = "${getFullLocalApiServerUrl()}/update?access_token=$state.accessToken"
+    state.heartbeatUrl = "${getFullLocalApiServerUrl()}/heartbeat?access_token=$state.accessToken"
     
     // Connect to server
     connectToServer()
@@ -136,7 +142,7 @@ def connectToServer() {
 
 def registerListener() {
     def listenerUrl = "${url}/listeners"
-    def listenerBody = [ url: state.updateUrl ]
+    def listenerBody = [ updateUrl: state.updateUrl, heartbeatUrl: state.heartbeatUrl ]
     logDebug("Posting to ${listenerUrl} with ${listenerBody}")
     try {
         httpPostJson(listenerUrl, listenerBody) { response ->
