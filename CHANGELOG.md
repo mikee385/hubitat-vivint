@@ -1,3 +1,7 @@
+## 0.0.19 (2022-07-25)
+### Changes
+- Add new equipment codes for contact sensor (4000) and glass break (4030) (thanks to user1640)
+
 ## 0.0.18 (2022-06-15)
 ### Changes
 - Fix issue that made things worse for Garage Door (thanks to user920)

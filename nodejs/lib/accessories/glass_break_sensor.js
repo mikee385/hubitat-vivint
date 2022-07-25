@@ -31,7 +31,8 @@ class GlassBreakSensor extends Device {
           (data.EquipmentCode == VivintDict.EquipmentCode.GB1_GLASS_BREAK) || 
           (data.EquipmentCode == VivintDict.EquipmentCode.GB2_GLASS_BREAK) || 
           (data.EquipmentCode == VivintDict.EquipmentCode.EXISTING_GLASS_BREAK) || 
-          (data.EquipmentCode == VivintDict.EquipmentCode.HW_GLASS_BREAK_5853)
+          (data.EquipmentCode == VivintDict.EquipmentCode.HW_GLASS_BREAK_5853) ||
+          (data.EquipmemtCode == 4030)
         ) 
       )
     }
