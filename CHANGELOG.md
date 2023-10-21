@@ -1,6 +1,6 @@
 ## 0.0.20 (2023-10-21)
 ### Changes
-- Fixing due to Vivint no longer sending set-cookie header from /authuser (thanks to jgrimard)
+- Fixing due to Vivint no longer sending set-cookie header from /authuser (thanks to jgrimard and zackman0010)
 
 ## 0.0.19 (2022-07-25)
 ### Changes
