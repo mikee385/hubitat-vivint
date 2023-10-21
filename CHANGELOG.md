@@ -1,3 +1,7 @@
+## 0.0.20 (2023-10-21)
+### Changes
+- Fixing due to Vivint no longer sending set-cookie header from /authuser (thanks to jgrimard)
+
 ## 0.0.19 (2022-07-25)
 ### Changes
 - Add new equipment codes for contact sensor (4000) and glass break (4030) (thanks to user1640)
