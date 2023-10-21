@@ -60,20 +60,25 @@ function VivintApiModule(config, log) {
     async connectPubNub() {
       let channel = "PlatformChannel#" + this.sessionInfo.Users.MessageBroadcastChannel
       let pubnub = new PubNub({
-        subscribeKey : PUBNUB_KEY
+        subscribeKey : PUBNUB_KEY,
+        uuid: this.sessionInfo.Users.MessageBroadcastChannel
       })
 
       pubnub.subscribe({
         channels: [channel]
       })
 
-      log.debug("Connected PubNub message:", pubnub)
+      log.debug(pubnub)
 
       return pubnub
     }
 
     parsePubNub(message) {
       return mapObject(message, VivintDict)
+    }
+
+    async setGarageDoorState(garageDoorId, newState) {
+      return await this.putDevice('door', garageDoorId, { [VivintDict.Fields.Id]: garageDoorId, [VivintDict.Fields.Status]: newState } )
     }
 
     async setLockState(lockId, newState) {
@@ -164,7 +169,7 @@ function VivintApiModule(config, log) {
       return {sessionInfo: sessionInfo, refreshToken: creds.refreshToken} // 10/20/2023 changed to return creds.refreshToken instead of refreshToken
     }
     catch (err) {
-      log.error('Error occured during login, retrying in 60 seconds...', err)
+      log.error('Error occurred during login, retrying in 60 seconds...', err)
       await new Promise(r => setTimeout(r, 60*1000));  //added sleep timer to prevent being blocked for 24hrs by Cloudflare
       return VivintApi.doAuth(creds)
     }
