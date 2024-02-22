@@ -65,10 +65,10 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
       
       if (listenerData) {
         listeners.data.forEach((listener) => {
-          log.info(`Pushing update to ${listener.url}`)
-          log.debug(`Pushing update to ${listener.url}: ${JSON.stringify(listenerData)}`)
+          log.info(`Pushing update to ${listener.updateUrl}`)
+          log.debug(`Pushing update to ${listener.updateUrl}: ${JSON.stringify(listenerData)}`)
               
-          this.sendUpdateToListener(listener.url, listenerData)
+          this.sendUpdateToListener(listener.updateUrl, listenerData)
         })
       }
     }
@@ -118,10 +118,10 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
       
           if (listenerData) {
             listeners.data.forEach((listener) => {
-              log.info(`Pushing update to ${listener.url}`)
-              log.debug(`Pushing update to ${listener.url}: ${JSON.stringify(listenerData)}`)
+              log.info(`Pushing update to ${listener.updateUrl}`)
+              log.debug(`Pushing update to ${listener.updateUrl}: ${JSON.stringify(listenerData)}`)
               
-              this.sendUpdateToListener(listener.url, listenerData)
+              this.sendUpdateToListener(listener.updateUrl, listenerData)
             })
           }
         }
@@ -210,6 +210,7 @@ function DeviceSetModule(config, log, vivintApi, listeners) {
         log.error('Error occured sending data to listener: ${listenerUrl}', error)
       }
     }
+    
   }
 
   // let Devices = [ContactSensor, SmokeSensor, CarbonMonoxideSensor, MotionSensor, Lock, Thermostat, GarageDoor, Panel, Camera, LightSwitch, DimmerSwitch]
